@@ -54,107 +54,107 @@ function printStartup () {
 
 printStartup();
 
-global.loginInProgress = false;
+loginInProgress = false;
 
 window.document.title = `torn.space`;
 
-global.isChrome = true || !(!window.chrome) && !(!window.chrome.webstore);// broken
+isChrome = true || !(!window.chrome) && !(!window.chrome.webstore);// broken
 
-global.canvas = document.getElementById(`ctx`);
+canvas = document.getElementById(`ctx`);
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-global.ctx = canvas.getContext(`2d`, { alpha: false });
-global.ReactRoot = ReactRootJS;
+ctx = canvas.getContext(`2d`, { alpha: false });
+ReactRoot = ReactRootJS;
 const { Howl, Howler } = require(`howler`); // audio
 
-global.teamColors = [`red`, `blue`, `green`];
-global.sectorWidth = 14336;
-global.mx = 0; global.my = 0; global.mb = 0;
-global.tick = 0;
-global.scrx = 0; global.scry = 0;
-global.mapSz = -1;
-global.quests = 0; global.quest = 0;
-global.login = false; global.lore = false;
-global.px = 0; global.py = 0; global.pc = 0; global.pangle = 0; global.isLocked = false; global.pvx = 0; global.pvy = 0;
-global.phealth = 0;
-global.mapZoom = 1;
-global.myxx1 = 0; global.myxx2 = 0; global.myxx3 = 0; global.myxx4 = 0;
-global.myyy1 = 0; global.myyy2 = 0; global.myyy3 = 0; global.myyy4 = 0;
-global.pscx = 0; global.pscy = 0; global.psga = 0;
-global.bxo = 0; global.byo = 0; global.bx = 0; global.by = 0;
-global.iron = 0; global.silver = 0; global.platinum = 0; global.copper = 0;
-global.kills = 0; global.baseKills = 0; global.money = 0; global.experience = 0; global.rank = 0;
-global.sx = 0; global.sy = 0;
-global.docked = false; global.actuallyBuying = true;
-global.tab = 0; global.confirmer = -1; global.shipView = 0; global.volTransparency = 0; global.gVol = 0.5;
-global.typing = false;
-global.stopTyping = () => {
+teamColors = [`red`, `blue`, `green`];
+sectorWidth = 14336;
+mx = 0; my = 0; mb = 0;
+tick = 0;
+scrx = 0; scry = 0;
+mapSz = -1;
+quests = 0; quest = 0;
+login = false; lore = false;
+px = 0; py = 0; pc = 0; pangle = 0; isLocked = false; pvx = 0; pvy = 0;
+phealth = 0;
+mapZoom = 1;
+myxx1 = 0; myxx2 = 0; myxx3 = 0; myxx4 = 0;
+myyy1 = 0; myyy2 = 0; myyy3 = 0; myyy4 = 0;
+pscx = 0; pscy = 0; psga = 0;
+bxo = 0; byo = 0; bx = 0; by = 0;
+iron = 0; silver = 0; platinum = 0; copper = 0;
+kills = 0; baseKills = 0; money = 0; experience = 0; rank = 0;
+sx = 0; sy = 0;
+docked = false; actuallyBuying = true;
+tab = 0; confirmer = -1; shipView = 0; volTransparency = 0; gVol = 0.5;
+typing = false;
+stopTyping = () => {
     typing = false;
 };
-global.centered = false;
-global.afk = false;
+centered = false;
+afk = false;
 
-global.baseMap2D = {};
-global.planetMap2D = {};
-global.myGuild = {};
+baseMap2D = {};
+planetMap2D = {};
+myGuild = {};
 
-global.homepageTimer = 0; global.loreTimer = 0;
-global.raidTimer = -1; global.raidRed = 0; global.raidBlue = 0; global.raidGreen = 0; global.points = 0;
-global.shield = false; global.autopilot = false;
-global.seller = 0; global.worth = 0; global.ship = 0;
-global.empTimer = -1; global.dmgTimer = -1; global.gyroTimer = 0;
-global.t2 = 1; global.mh2 = 1; global.c2 = 1; global.va2 = 1; global.e2 = 1; global.ag2 = 1;
-global.dead = false; global.lives = 50; global.sLag = 0; global.nLag = 0; global.clientLag = -40; global.fps = 0; global.ops = 0; global.frames = 0; global.uframes = 0; global.ups = 0; global.dev = false;
-global.credentialState = 0;
-global.savedNote = 0;
-global.myName = `GUEST`; global.currAlert = ``; global.bigAlert = ``; global.disguise = 0;
-global.soundAllowed = false;
-global.currLoading = ``;
-global.secret2PlanetName = ``;
-global.meanNLag = 0; global.nLagCt = 0;
+homepageTimer = 0; loreTimer = 0;
+raidTimer = -1; raidRed = 0; raidBlue = 0; raidGreen = 0; points = 0;
+shield = false; autopilot = false;
+seller = 0; worth = 0; ship = 0;
+empTimer = -1; dmgTimer = -1; gyroTimer = 0;
+t2 = 1; mh2 = 1; c2 = 1; va2 = 1; e2 = 1; ag2 = 1;
+dead = false; lives = 50; sLag = 0; nLag = 0; clientLag = -40; fps = 0; ops = 0; frames = 0; uframes = 0; ups = 0; dev = false;
+credentialState = 0;
+savedNote = 0;
+myName = `GUEST`; currAlert = ``; bigAlert = ``; disguise = 0;
+soundAllowed = false;
+currLoading = ``;
+secret2PlanetName = ``;
+meanNLag = 0; nLagCt = 0;
 
-global.booms = {};
-global.boomParticles = {};
-global.trails = {};
-global.myTrail = 0;
-global.notes = {};
-global.bullets = {};
-global.planets = 0; global.hmap = 0; global.lb = 0; global.youi = 0;
-global.keys = []; global.lagArr = 0;
+booms = {};
+boomParticles = {};
+trails = {};
+myTrail = 0;
+notes = {};
+bullets = {};
+planets = 0; hmap = 0; lb = 0; youi = 0;
+keys = []; lagArr = 0;
 
-global.w = window.innerWidth;
-global.h = window.innerHeight; // Canvas width and height
+w = window.innerWidth;
+h = window.innerHeight; // Canvas width and height
 
-global.basesInfo = undefined;
-global.playersInfo = { };
-global.minesInfo = { };
-global.orbsInfo = { };
-global.missilesInfo = { };
-global.vortsInfo = { };
-global.beamsInfo = { };
-global.blastsInfo = { };
-global.astsInfo = { };
-global.packsInfo = { };
+basesInfo = undefined;
+playersInfo = { };
+minesInfo = { };
+orbsInfo = { };
+missilesInfo = { };
+vortsInfo = { };
+beamsInfo = { };
+blastsInfo = { };
+astsInfo = { };
+packsInfo = { };
 
-global.clientmutes = { };
+clientmutes = { };
 // for initial loading screen
-global.EVERYTHING_LOADED = false;
+EVERYTHING_LOADED = false;
 
-global.guest = false;
+guest = false;
 
-global.stars = [];
+stars = [];
 for (let i = 0; i < 30; i++) stars[i] = { x: Math.random() * w, y: Math.random() * h };
 
-global.myId = undefined;
+myId = undefined;
 
-global.killStreak = 0; global.killStreakTimer = -1;
-global.badWeapon = 0;
-global.mouseDown = false;
-global.flash = 0;
-global.hyperdriveTimer = 0;
-global.didW = false; global.didSteer = false; global.currTut = 0;
+killStreak = 0; killStreakTimer = -1;
+badWeapon = 0;
+mouseDown = false;
+flash = 0;
+hyperdriveTimer = 0;
+didW = false; didSteer = false; currTut = 0;
 
-global.sectorPoints = 0;
+sectorPoints = 0;
 
 require(`./audio.js`);
 const loadAllImages = require(`./image.js`);
@@ -168,8 +168,8 @@ require(`./BaseMenu/BaseMenu.js`);
 require(`./input.js`);
 require(`./chat.ts`);
 
-global.wepns = jsn.weapons;
-global.ships = jsn.ships;
+wepns = jsn.weapons;
+ships = jsn.ships;
 
 ReactRoot.socket = socket; // Just to make socket accessible in react.js
 
@@ -186,10 +186,10 @@ ReactDOM.render(
 ReactRoot.turnOnDisplay(`LoginOverlay`);
 
 // Used in the ship store to make the bar graphs
-global.maxShipThrust = -1000;
-global.maxShipHealth = -1000;
-global.maxShipCapacity = -1000;
-global.maxShipAgility = -1000;
+maxShipThrust = -1000;
+maxShipHealth = -1000;
+maxShipCapacity = -1000;
+maxShipAgility = -1000;
 for (const i in ships) {
     const ship = ships[i];
     if (ship.thrust > maxShipThrust) maxShipThrust = ship.thrust;
@@ -202,12 +202,12 @@ for (const j in wepns) {
     if (!wepns[j].enabled) { delete wepns[j]; }
 }
 const weaponTypeOrder = { Gun: 0, Mine: 1, Missile: 2, Beam: 3, Orb: 4, Blast: 5, Misc: 6 };
-global.o = 0;
+o = 0;
 for (const j in wepns) {
     wepns[j].order = o;
     o++;
 }
-global.wepnCount = Object.keys(wepns).length;
+wepnCount = Object.keys(wepns).length;
 for (let j = 0; j < wepnCount - 1; j++) { // this nifty loop sorts weapons by ship
     const woj = weaponWithOrder(j);
     const woj1 = weaponWithOrder(j + 1);
@@ -224,22 +224,22 @@ wepns[-2] = { name: `` };
 wepns[-1] = { name: translate(`Empty`) };
 wepnCount += 2;
 
-global.scroll = 0; global.weaponTimer = 0; global.charge = 0;
-global.equipped = 0; global.ammos = {};
-global.musicAudio = 0;
+scroll = 0; weaponTimer = 0; charge = 0;
+equipped = 0; ammos = {};
+musicAudio = 0;
 
-global.redShips = [];
-global.blueShips = [];
-global.greenShips = [];
-global.planetImgs = [];
-global.Img = {};
-global.Img_prgs = [0 /* Count of loaded images */, 0];
+redShips = [];
+blueShips = [];
+greenShips = [];
+planetImgs = [];
+Img = {};
+Img_prgs = [0 /* Count of loaded images */, 0];
 
 loadAllImages();
 loadAllAudio();
 
-global.achs = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
-global.bigNotes = [-1, -1, -1, -1];
+achs = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+bigNotes = [-1, -1, -1, -1];
 
 function forceRefresh () {
     window.location.reload(true);
