@@ -27,6 +27,6 @@ const printStartup = () => {
     console.error(`ALWAYS AUDIT CODE YOU ARE INJECTING INTO THE DEVELOPER CONSOLE`);
     console.error(`ADDITIONALLY, PLEASE RESPECT OUR TOS https://torn.space/legal/tos.pdf AND NOTE OUR PRIVACY POLICY https://torn.space/legal/privacy_policy.pdf`);
     console.error(`***********************************************************************`);
-}
+};
 
 module.exports = printStartup;

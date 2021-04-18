@@ -36,8 +36,8 @@
         }],
         "semi": [1, "always"],
         "quotes": [2, "backtick"],
-        "no-undef": 0,
-        "no-unused-vars": 0,
+        "no-undef": 1,
+        "no-unused-vars": 1,
         "prefer-const": 0,
         "no-mixed-operators": 0,
         "no-prototype-builtins": 1,
@@ -45,11 +45,11 @@
         "prefer-arrow-callback": 1,
         "prefer-template": 1,
         "no-unreachable-loop": 1,
-        "no-unused-expressions": 0,
-        "no-useless-escape": 0,
-        "camelcase": 0,
-        "node/no-callback-literal": 0,
-        "no-return-assign": 0,
+        "no-unused-expressions": 1,
+        "no-useless-escape": 1,
+        "camelcase": 1,
+        "node/no-callback-literal": 1,
+        "no-return-assign": 1,
         "eol-last": 1,
         "arrow-body-style": ["warn", "as-needed"],
         "func-style": 1,
@@ -57,18 +57,6 @@
             "disallowPrototype": true,
             "singleReturnOnly": true,
             "classPropertiesAllowed": false
-        }],
-
-        // These can be removed when someone has time to fix them...but for now they're just not worth it.
-        "no-sequences": 0,
-        "no-mixed-spaces-and-tabs": 0,
-        "no-tabs": 0,
-        "no-global-assign": 0,
-        "no-func-assign": 0,
-        "no-self-assign": 0,
-        "prefer-regex-literals": 0,
-
-        "react/prop-types": 0,
-        "react/no-string-refs": 0
+        }]
     }
 }

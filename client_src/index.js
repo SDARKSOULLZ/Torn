@@ -19,6 +19,7 @@ import ReactDOM from "react-dom";
 import ReactRootJS from "./react.js";
 
 import { jsn, translate } from "./localizer.ts";
+import { LoaderOptionsPlugin } from "webpack";
 
 const printStartup = require(`./utils/printStartup.js`);
 const core = require(`./core.js`);
@@ -127,7 +128,9 @@ core.didW = false; core.didSteer = false; core.currTut = 0;
 core.sectorPoints = 0;
 
 require(`./audio.js`);
-const loadAllImages = require(`./image.js`);
+
+const imageLoader = require(`./utils/image.js`);
+
 require(`./localizer.ts`);
 require(`./helper.js`);
 require(`./network.js`);
@@ -205,7 +208,14 @@ core.planetImgs = [];
 core.Img = {};
 core.Img_prgs = [0 /* Count of loaded images */, 0];
 
-loadAllImages();
+// Load images from loader.
+loader.loadAllImages();
+
+for (let i = 1; i < 6; i++) {
+    planetImgs[i] = new Image();
+    planetImgs[i].src = `/img/space/planets/pt${i}.jpg`;
+}
+
 loadAllAudio();
 
 core.achs = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];

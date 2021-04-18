@@ -1,3 +1,6 @@
+# Temporarily ignore serverside.
+server_src/
+
 # Client assets.
 client/
 

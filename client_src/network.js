@@ -260,7 +260,7 @@ socket.on(`missile_delete`, (data) => {
 
 const clearBullets = () => {
     bullets = {};
-}
+};
 
 const vort_update = (data) => {
     const id = data.id;
@@ -270,7 +270,7 @@ const vort_update = (data) => {
     for (const d in delta) {
         vortsInfo[id][d] = delta[d];
     }
-}
+};
 
 const mine_update = (data) => {
     const id = data.id;
@@ -281,7 +281,7 @@ const mine_update = (data) => {
     for (const d in delta) {
         minesInfo[id][d] = delta[d];
     }
-}
+};
 
 const pack_update = (data) => {
     const id = data.id;
@@ -292,7 +292,7 @@ const pack_update = (data) => {
     for (const d in delta) {
         packsInfo[id][d] = delta[d];
     }
-}
+};
 
 const beam_update = (data) => {
     const id = data.id;
@@ -303,7 +303,7 @@ const beam_update = (data) => {
     for (const d in delta) {
         beamsInfo[id][d] = delta[d];
     }
-}
+};
 
 const blast_update = (data) => {
     const id = data.id;
@@ -314,7 +314,7 @@ const blast_update = (data) => {
     for (const d in delta) {
         blastsInfo[id][d] = delta[d];
     }
-}
+};
 
 const base_update = (data) => {
     if (data === undefined || data.delta === undefined) return;
@@ -325,7 +325,7 @@ const base_update = (data) => {
     for (const d in delta) {
         basesInfo[d] = delta[d];
     }
-}
+};
 
 const asteroid_update = (data) => {
     const id = data.id;
@@ -336,7 +336,7 @@ const asteroid_update = (data) => {
     for (const d in delta) {
         astsInfo[id][d] = delta[d];
     }
-}
+};
 
 const orb_update = (data) => {
     const id = data.id;
@@ -346,7 +346,7 @@ const orb_update = (data) => {
     for (const d in delta) {
         orbsInfo[id][d] = delta[d];
     }
-}
+};
 
 const missile_update = (data) => {
     const id = data.id;
@@ -357,7 +357,7 @@ const missile_update = (data) => {
     for (const d in delta) {
         missilesInfo[id][d] = delta[d];
     }
-}
+};
 
 socket.on(`newBullet`, (data) => {
     bullets[data.id] = data;
@@ -672,7 +672,7 @@ const constructMyGuild = (data) => {
         const member = data[m];
         myGuild[member.sy][member.sx][m] = { x: member.x, y: member.y };
     }
-}
+};
 
 socket.on(`worm`, (data) => {
     bx = data.bx;
