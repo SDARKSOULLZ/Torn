@@ -20,8 +20,6 @@ import ReactRootJS from "./react.js";
 
 import { jsn, translate } from "./localizer.ts";
 
-`use strict`;
-
 const printStartup = require(`./utils/printStartup.js`);
 const core = require(`./core.js`);
 
