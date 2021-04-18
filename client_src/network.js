@@ -16,38 +16,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import { jsn, translate } from "./localizer.ts";
+
 const io = require(`socket.io-client`);
 const msgpack = require(`socket.io-msgpack-parser`);
 
-global.API_URL = `${TORN_API_URL}/api`;
-global.GAMESERVER_URL = TORN_GAMESERVER_URL;
-console.log(`:TornNetworkRepository: Setting API_URL to ${API_URL}`);
-console.log(`:TornNetworkRepository: Setting GAMESERVER_URL to ${GAMESERVER_URL}`);
+const API_URL = `${TORN_API_URL}/api`;
+const GAMESERVER_URL = TORN_GAMESERVER_URL;
 
-global.send_api = async (endpoint, data) => await fetch(API_URL + endpoint, {
+console.log(`[NETWORK]: Setting API_URL to ${API_URL}`);
+console.log(`[NETWORK] Setting GAMESERVER_URL to ${GAMESERVER_URL}`);
+
+const sendAPI = async (endpoint, data) => await fetch(API_URL + endpoint, {
     method: `post`,
     body: data,
     headers: { "Content-Type": `x-www-form-urlencoded` }
 });
 
-global.socket = io(GAMESERVER_URL,
-    {
-        autoConnect: false,
-        parser: msgpack
-    });
+const socket = io(GAMESERVER_URL, {
+    autoConnect: false,
+    parser: msgpack
+});
 
-global.connect = function () {
+const connect = () => {
     if (socket.connected) { return; }
     socket.open();
 };
 
-// socket error handling
+// Socket error handling.
 socket.on(`connect_error`, (error) => {
     loginInProgress = false;
     if (!login) {
         alert(`Failed to connect to the Torn servers. This probably either means they are down or your firewall is blocking the request. ${error}`);
-        socket.close();
-        return;
+        return socket.close();
     }
 
     alert(`There's been an issue and your connection to Torn has been interrupted. You should be able to reload and get back right into the game. ${error}`);
@@ -258,11 +258,11 @@ socket.on(`missile_delete`, (data) => {
     delete missilesInfo[data];
 });
 
-function clearBullets () {
-    bullets = { };
+const clearBullets = () => {
+    bullets = {};
 }
 
-function vort_update (data) {
+const vort_update = (data) => {
     const id = data.id;
     if (vortsInfo[id] === undefined) return;
     const delta = data.delta;
@@ -272,7 +272,7 @@ function vort_update (data) {
     }
 }
 
-function mine_update (data) {
+const mine_update = (data) => {
     const id = data.id;
     if (minesInfo[id] === undefined) return;
 
@@ -283,7 +283,7 @@ function mine_update (data) {
     }
 }
 
-function pack_update (data) {
+const pack_update = (data) => {
     const id = data.id;
     if (packsInfo[id] === undefined) return;
 
@@ -294,7 +294,7 @@ function pack_update (data) {
     }
 }
 
-function beam_update (data) {
+const beam_update = (data) => {
     const id = data.id;
     if (beamsInfo[id] === undefined) return;
 
@@ -305,7 +305,7 @@ function beam_update (data) {
     }
 }
 
-function blast_update (data) {
+const blast_update = (data) => {
     const id = data.id;
     if (blastsInfo[id] === undefined) return;
 
@@ -316,7 +316,7 @@ function blast_update (data) {
     }
 }
 
-function base_update (data) {
+const base_update = (data) => {
     if (data === undefined || data.delta === undefined) return;
     const delta = data.delta;
 
@@ -327,7 +327,7 @@ function base_update (data) {
     }
 }
 
-function asteroid_update (data) {
+const asteroid_update = (data) => {
     const id = data.id;
 
     if (astsInfo[id] === undefined) return;
@@ -338,7 +338,7 @@ function asteroid_update (data) {
     }
 }
 
-function orb_update (data) {
+const orb_update = (data) => {
     const id = data.id;
     if (orbsInfo[id] === undefined) return;
     const delta = data.delta;
@@ -348,7 +348,7 @@ function orb_update (data) {
     }
 }
 
-function missile_update (data) {
+const missile_update = (data) => {
     const id = data.id;
     if (missilesInfo[id] === undefined) return;
 
@@ -363,6 +363,7 @@ socket.on(`newBullet`, (data) => {
     bullets[data.id] = data;
     bullets[data.id].tick = 0;
 });
+
 socket.on(`delBullet`, (data) => {
     delete bullets[data.id];
 });
@@ -378,6 +379,7 @@ socket.on(`outdated`, () => {
 socket.on(`badcookie`, (data) => {
     credentialState = 30;
 });
+
 socket.on(`loginSuccess`, (data) => {
     // Cleanup bullets from homepage
     for (const i in bullets) delete bullets[i];
@@ -389,9 +391,11 @@ socket.on(`loginSuccess`, (data) => {
     login = true;
     myId = data.id;
 });
+
 socket.on(`invalidReg`, (data) => {
     credentialState = data.reason;
 });
+
 socket.on(`registered`, (data) => {
     credentialState = 0;
     ReactRoot.turnOffRegister(`LoginOverlay`);
@@ -399,6 +403,7 @@ socket.on(`registered`, (data) => {
     autopilot = false;
     tab = 0;
 });
+
 socket.on(`lored`, (data) => {
     // Cleanup bullets from homepage
     for (const i in bullets) delete bullets[i];
@@ -407,6 +412,7 @@ socket.on(`lored`, (data) => {
     ReactRoot.turnOffDisplay(`LoginOverlay`);
     lore = true;
 });
+
 socket.on(`guested`, (data) => {
     credentialState = 0;
     ReactRoot.turnOffDisplay(`LoginOverlay`);
@@ -439,25 +445,19 @@ socket.on(`you`, (data) => {
     if (typeof data.c2 !== `undefined`) c2 = Math.round(1000 * data.c2) / 1000;
     if (typeof data.mh2 !== `undefined`) mh2 = Math.round(1000 * data.mh2) / 1000;
     if (typeof data.e2 !== `undefined`) e2 = Math.round(1000 * data.e2) / 1000;
-    if (data.points >= 0 && data.points < 1000) // prevents undefined on base
-    {
-        points = data.points;
-    }
+    if (data.points >= 0 && data.points < 1000) points = data.points; // prevents undefined on base
 });
+
 socket.on(`weapons`, (data) => {
     let diff = false;
-    for (const i in equipped) {
-        if (equipped[i] != data.weapons[i]) {
-            diff = true;
-        }
-    }
+    for (const i in equipped) if (equipped[i] != data.weapons[i]) diff = true;
+
     equipped = data.weapons;
     worth = data.worth;
     ammos = data.ammos;
-    if (docked && diff) {
-        playAudio(`money`, 1);
-    }
+    if (docked && diff) playAudio(`money`, 1);
 });
+
 socket.on(`sound`, (data) => {
     if (data.file.includes(`boom`)) {
         if (data.file === `bigboom`) flash = 1;
@@ -474,16 +474,20 @@ socket.on(`sound`, (data) => {
     }
     playAudio(data.file, vol);
 });
+
 socket.on(`equip`, (data) => {
     scroll = data.scroll;
     weaponTimer = 100;
 });
+
 socket.on(`note`, (data) => {
     notes[Math.random()] = { msg: data.msg, x: data.x - 16 + (data.local ? -px : Math.random() * 32), y: data.y - 16 + (data.local ? -py : Math.random() * 32), time: 0, strong: false, local: data.local };
 });
+
 socket.on(`strong`, (data) => {
     notes[Math.random()] = { msg: data.msg, x: data.x + (data.local ? -px : 0), y: data.y - 128 + (data.local ? -py : 0), time: 0, strong: true, local: data.local };
 });
+
 socket.on(`spoils`, (data) => {
     data.amt = Math.round(data.amt);
     if (data.amt == 0) return;
@@ -507,32 +511,41 @@ socket.on(`spoils`, (data) => {
     }
     notes[Math.random()] = { spoils: true, msg: msg, x: x, y: y, time: 0, strong: true, local: data.local };
 });
+
 socket.on(`online`, (data) => {
     sLag = data.lag;
 });
+
 socket.on(`emp`, (data) => {
     empTimer = data.t;
 });
+
 socket.on(`gyro`, (data) => {
     gyroTimer = data.t;
 });
+
 socket.on(`dmg`, (data) => {
     dmgTimer = 15;
 });
+
 socket.on(`refresh`, (data) => {
     forceRefresh();
 });
+
 socket.on(`quests`, (data) => {
     quests = data.quests;
 });
+
 socket.on(`rank`, (data) => {
     addBigNote([256, `Rank Up!`, ``, ``]);
 });
+
 socket.on(`quest`, (data) => {
     quest = data.quest;
     console.log(`Received quest status update`);
     if (data.complete) addBigNote([256, `Quest Complete!`, ``, ``]);
 });
+
 socket.on(`achievementsKill`, (data) => {
     for (let a in data.achs) {
         a = Number(a);
@@ -542,6 +555,7 @@ socket.on(`achievementsKill`, (data) => {
         }
     }
 });
+
 socket.on(`achievementsCash`, (data) => {
     for (let a in data.achs) {
         a = Number(a);
@@ -551,6 +565,7 @@ socket.on(`achievementsCash`, (data) => {
         }
     }
 });
+
 socket.on(`achievementsDrift`, (data) => {
     for (let a in data.achs) {
         a = Number(a);
@@ -560,6 +575,7 @@ socket.on(`achievementsDrift`, (data) => {
         }
     }
 });
+
 socket.on(`achievementsMisc`, (data) => {
     for (let a in data.achs) {
         a = Number(a);
@@ -569,6 +585,7 @@ socket.on(`achievementsMisc`, (data) => {
         }
     }
 });
+
 socket.on(`status`, (data) => {
     shipView = ship;
     if (!docked && data.docked) savedNote = 40;
@@ -579,16 +596,19 @@ socket.on(`status`, (data) => {
     dead = data.state;
     lives = data.lives;
 });
+
 socket.on(`planets`, (data) => {
     planets = data.pack;
     if (quest != 0 && quest.type === `Secret2` && sx == quest.sx && sy == quest.sy) {
         secret2PlanetName = planets.name;
     }
 });
+
 socket.on(`planetMap`, (data) => {
     planetMap2D[data.sx][data.sy] = data;
     console.log(planetMap2D);
 });
+
 socket.on(`baseMap`, (data) => {
     mapSz = data.mapSz;
     console.log(`Got basemap of size ${mapSz}`);
@@ -641,7 +661,8 @@ socket.on(`heatmap`, (data) => {
     }
     r3DMap();
 });
-function constructMyGuild (data) {
+
+const constructMyGuild = (data) => {
     myGuild = {};
     for (let i = 0; i < mapSz; i++) {
         myGuild[i] = {};
@@ -659,9 +680,11 @@ socket.on(`worm`, (data) => {
     bxo = data.bxo;
     byo = data.byo;
 });
+
 socket.on(`raid`, (data) => {
     raidTimer = data.raidTimer;
 });
+
 socket.on(`kick`, (data) => {
     alert(data.msg);
     socket.disconnect();
