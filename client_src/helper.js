@@ -17,9 +17,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { translate } from "./localizer.ts";
 
-global.getSectorName = (inx, iny) => `${String.fromCharCode(97 + inx).toUpperCase()}${iny + 1}`;
+const core = require(`./core.js`);
 
-global.getQuestDescription = function (q) {
+core.getSectorName = (inx, iny) => `${String.fromCharCode(97 + inx).toUpperCase()}${iny + 1}`;
+
+core.getQuestDescription = function (q) {
     if (q.type === `Mining`) return translate(`Bring # units of # to sector #.`, [numToLS(q.amt), q.metal, getSectorName(q.sx, q.sy)]);
     if (q.type === `Base`) return translate(`Eliminate enemy base in sector #.`, [getSectorName(q.sx, q.sy)]);
     if (q.type === `Delivery`) return translate(`Obtain package from planet # and deliver it to planet #.`, [getSectorName(q.sx, q.sy), getSectorName(q.dsx, q.dsy)]);
@@ -30,58 +32,58 @@ global.getQuestDescription = function (q) {
     return `QUEST_DESCRIPTION_ERROR`;
 };
 
-global.write = function (context, str, x, y) {
+core.write = function (context, str, x, y) {
     context.fillText(str, x, y);
 };
 
-global.getMousePos = function (canvas, evt) {
+core.getMousePos = function (canvas, evt) {
     const rect = canvas.getBoundingClientRect();
     return {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top
     };
 };
-global.cube = (x) => x * x * x;
+core.cube = (x) => x * x * x;
 
-global.sins = [];
+core.sins = [];
 for (let i = 0; i < 1571; i++)// 500pi
 {
-    global.sins[i] = Math.sin(i / 1000.0);
+    core.sins[i] = Math.sin(i / 1000.0);
 }
-global.sinLow = function (x) {
+core.sinLow = function (x) {
     x += Math.PI * 200;
     x %= Math.PI * 2;
     const modpi = x % Math.PI;
     return (x > Math.PI ? -1 : 1) * sins[Math.floor(((modpi < Math.PI / 2) ? (modpi) : (Math.PI - modpi)) * 1000)];
 };
-global.cosLow = (x) => sinLow(x + Math.PI / 2);
+core.cosLow = (x) => sinLow(x + Math.PI / 2);
 
-global.colorSelect = function (col, red, blue, green) {
+core.colorSelect = function (col, red, blue, green) {
     if (col === `red`) return red;
     if (col === `blue`) return blue;
     return green;
 };
-global.square = (x) => x * x;
-global.r2x = function (x) {
+core.square = (x) => x * x;
+core.r2x = function (x) {
     const ranks = [0, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 4000, 8000, 14000, 20000, 40000, 70000, 100000, 140000, 200000, 300000, 500000, 800000, 1000000, 1500000, 2000000, 3000000, 5000000, 8000000, 12000000, 16000000, 32000000, 64000000, 100000000, 200000000, 400000000, 1000000000];
     return x < 0 ? 0 : ranks[x];
 };
-global.CoherentNoise = function (x) {
+core.CoherentNoise = function (x) {
     const intX = Math.floor(x);
     const w = x - intX;
     const n0 = Math.sin(square(intX) * 1000);
     const n1 = Math.sin(square(intX + 1) * 1000);
     return n0 + (n1 - n0) * (w * w / 2 - w * w * w / 3) * 6;
 };
-global.lerp = (a, b, w) => a * (1 - w) + b * w;
+core.lerp = (a, b, w) => a * (1 - w) + b * w;
 
-global.expToLife = () => Math.floor(guest ? 0 : 800000 * Math.atan(experience / 600000.0)) + 500;
-global.abbrevInt = function (x) {
+core.expToLife = () => Math.floor(guest ? 0 : 800000 * Math.atan(experience / 600000.0)) + 500;
+core.abbrevInt = function (x) {
     if (x < 10000) return `${Math.round(x)}`;
     if (x < 10000000) return Math.round(x / 1000) + translate(`K`);
     if (x < 10000000000) return Math.round(x / 1000000) + translate(`M`);
 };
-global.lagMath = function (arr) {
+core.lagMath = function (arr) {
     if (lagArr == 0) {
         lagArr = arr;
         return;
@@ -90,7 +92,7 @@ global.lagMath = function (arr) {
         lagArr[i] = (lagArr[i] + arr[i] / 20) / 1.05;
     }
 };
-global.addBigNote = function (note) {
+core.addBigNote = function (note) {
     // set i to the least empty index of bigNotes
     let i = 0;
     for (i; i < 4; i++) if (bigNotes[i] == -1) break;
@@ -98,19 +100,19 @@ global.addBigNote = function (note) {
     // and use that index for queue
     bigNotes[i] = note;
 };
-global.bgPos = (x, px, scrx, i, tileSize) => ((scrx - px) / ((sectorWidth / tileSize) >> i)) % tileSize + tileSize * x;
-global.weaponWithOrder = function (x) {
+core.bgPos = (x, px, scrx, i, tileSize) => ((scrx - px) / ((sectorWidth / tileSize) >> i)) % tileSize + tileSize * x;
+core.weaponWithOrder = function (x) {
     for (const i in wepns) if (wepns[i].order == x) return parseInt(i);
 };
-global.getTimeAngle = () => tick / 10;
-global.brighten = function (x) {
+core.getTimeAngle = () => tick / 10;
+core.brighten = function (x) {
     if (x === `red`) return `pink`;
     if (x === `green`) return `lime`;
     if (x === `blue`) return `cyan`;
     return x;
 };
 
-global.numToLS = function (x) {
+core.numToLS = function (x) {
     if (!Number.isFinite(x)) return `NaN`;
     if (x < 0) return `-${numToLS(-x)}`;
     if (x == 0) return `0`;
@@ -130,18 +132,18 @@ global.numToLS = function (x) {
     return str;
 };
 
-global.techPrice = (x) => // money required to upgrade Tech
+core.techPrice = (x) => // money required to upgrade Tech
     techEnergy(nextTechLevel(x)) - techEnergy(x);
-global.techPriceForDowngrade = function (x) { // money required to upgrade Tech
+core.techPriceForDowngrade = function (x) { // money required to upgrade Tech
     if (myName.startsWith(`[V] `)) return techEnergy(lastTechLevel(x)) - techEnergy(x);
     return Math.max(techEnergy(lastTechLevel(x)) - techEnergy(x), -300000000);
 };
-global.techEnergy = (x) => // Net price of some tech level
+core.techEnergy = (x) => // Net price of some tech level
     Math.round(Math.pow(1024, x) / 1000) * 500;
-global.nextTechLevel = (x) => Math.floor(x * 8.0 + 1) / 8.0;
-global.lastTechLevel = (x) => Math.floor(x * 8.0 - 0.001) / 8.0;
-global.getPosition = (string, subString, index) => string.split(subString, index).join(subString).length;
-global.ammoCodeToString = function (code) { // used in weapon shop rendering
+core.nextTechLevel = (x) => Math.floor(x * 8.0 + 1) / 8.0;
+core.lastTechLevel = (x) => Math.floor(x * 8.0 - 0.001) / 8.0;
+core.getPosition = (string, subString, index) => string.split(subString, index).join(subString).length;
+core.ammoCodeToString = function (code) { // used in weapon shop rendering
     if (code >= 0) return `${code}`;
     if (code == -1) return translate(`Inf.`);
     if (code == -2) return translate(`Only One`);

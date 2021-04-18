@@ -15,17 +15,19 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-global.muted = false; global.musicMuted = false;
+const core = require(`./core.js`);
+
+core.muted = false; core.musicMuted = false;
 
 // Passed to React Root
-global.toggleAudio = function () {
+core.toggleAudio = function () {
     muted ^= true;
     Howler.mute(muted);
     return muted;
 };
 
 // Passed to React Root
-global.toggleMusic = function () {
+core.toggleMusic = function () {
     musicMuted ^= true;
     if (musicMuted && login) Aud.music1.pause();
     else if (musicAudio != 0) Aud.music1.play();
@@ -33,7 +35,7 @@ global.toggleMusic = function () {
 };
 
 // Use this function to play any sound from the Aud object
-global.playAudio = function (name, vol) {
+core.playAudio = function (name, vol) {
     if (muted || !soundAllowed) return;
     const audio = Aud[name];
     if (!audio) {
@@ -52,10 +54,10 @@ global.playAudio = function (name, vol) {
     }
 };
 
-global.Aud = {};
-global.Aud_prgs = [0, 0];
+core.Aud = {};
+core.Aud_prgs = [0, 0];
 
-global.loadAudio = function (name, _src) {
+core.loadAudio = function (name, _src) {
     if (Aud[name]) {
         console.error(`Loading audio twice: ${name}`);
     }
@@ -72,7 +74,7 @@ global.loadAudio = function (name, _src) {
     });
     Aud_prgs[1]++;
 };
-global.loadAllAudio = function () {
+core.loadAllAudio = function () {
     loadAudio(`minigun`, `/aud/minigun.mp3`);
     loadAudio(`boom`, `/aud/boom.mp3`);
     loadAudio(`hyperspace`, `/aud/hyperspace.mp3`);
