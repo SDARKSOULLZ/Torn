@@ -15,29 +15,25 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+const core = require(`../core.js`);
+
 const loadImage = (name, src) => {
-    if (Img[name]) {
-        console.error(`Loading image twice: ${name}`); return;
-    }
-    Img[name] = new Image();
-    Img[name].addEventListener(`load`, () => {
-        Img_prgs[0]++;
-    });
-    Img[name].src = src;
-    Img_prgs[1]++;
+    if (core.images.find(image => image.name === name)) return console.error(`Image "${name}" already loaded!`);
+
+    const img = new Image();
+    img.src = src;
+
+    const imageProps = {
+        img,
+        name
+    };
+
+    img.addEventListener(`load`, () => core.images.push(imageProps));
+    return img;
 };
 
 const loadShipImg = (color, i) => {
-    if (color === `red`) {
-        redShips[i] = new Image();
-        redShips[i].src = `/img/red/r${i + 1}.png`;
-    } else if (color === `blue`) {
-        blueShips[i] = new Image();
-        blueShips[i].src = `/img/blue/b${i + 1}.png`;
-    } else {
-        greenShips[i] = new Image();
-        greenShips[i].src = `/img/green/g${i + 1}.png`;
-    }
+    loadImage(`${color.slice(0, 1) + i.toString()}`, `/img/${color}/${color.slice(0, 1)}${i + 1}.png`);
 };
 
 module.exports = {
