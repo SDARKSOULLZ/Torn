@@ -5,11 +5,13 @@
         "es6": true,
         "node": true
     },
+
     "extends": [
         "standard",
         "eslint:recommended",
         "plugin:react/recommended"
     ],
+
     "parser": "@babel/eslint-parser",
     "parserOptions": {
         "ecmaVersion": 11,
@@ -18,10 +20,18 @@
         },
         "sourceType": "module"
     },
+
     "plugins": [
         "react",
         "prefer-arrow"
     ],
+
+    "globals": {
+        "VERSION": "readonly",
+        "COMMITHASH": "readonly",
+        "BRANCH": "readonly"
+    },
+
     "rules": {
         "func-call-spacing": 1,
         "no-unexpected-multiline": 1,
