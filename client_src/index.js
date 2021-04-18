@@ -22,139 +22,113 @@ import { jsn, translate } from "./localizer.ts";
 
 `use strict`;
 
-function printStartup () {
-    console.log(`******************************************************************************************************`);
-    console.log(` ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄      ▄     ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄ `);
-    console.log(`▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░▌    ▐░▌   ▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌`);
-    console.log(` ▀▀▀█░█▀▀▀ ▐░█▀▀▀▀▀█░▌▐░█▀▀▀▀▀█░▌▐░▌░▌   ▐░▌   ▐░█▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀█░▌▐░█▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀ `);
-    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░▌     ▐░▌▐░▌▐░▌  ▐░▌   ▐░▌        ▐░▌     ▐░▌▐░▌     ▐░▌▐░▌        ▐░▌        `);
-    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░█▄▄▄▄▄█░▌▐░▌ ▐░▌ ▐░▌   ▐░█▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄█░▌▐░█▄▄▄▄▄█░▌▐░▌        ▐░█▄▄▄▄▄▄▄ `);
-    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░░░░░░░░░▌▐░▌  ▐░▌▐░▌   ▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌▐░▌        ▐░░░░░░░░░▌`);
-    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░█▀▀█░█▀▀ ▐░▌   ▐░▐░▌    ▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀█░▌▐░▌        ▐░█▀▀▀▀▀▀▀ `);
-    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░▌   ▐░▌  ▐░▌    ▐░░▌           ▐░▌▐░▌        ▐░▌     ▐░▌▐░▌        ▐░▌        `);
-    console.log(`    ▐░▌    ▐░█▄▄▄▄▄█░▌▐░▌    ▐░▌ ▐░▌     ▐░▌ ▄  ▄▄▄▄▄▄▄█░▌▐░▌        ▐░▌     ▐░▌▐░█▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄ `);
-    console.log(`    ▐░▌    ▐░░░░░░░░░▌▐░▌     ▐░▌▐░▌     ▐░▌▐░▌▐░░░░░░░░░▌▐░▌        ▐░▌     ▐░▌▐░░░░░░░░░▌▐░░░░░░░░░▌`);
-    console.log(`     ▀      ▀▀▀▀▀▀▀▀▀  ▀       ▀  ▀       ▀  ▀  ▀▀▀▀▀▀▀▀▀  ▀          ▀       ▀  ▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀ `);
-    console.log(`                                                                                                      `);
-    console.log(`******************************************************************************************************`);
-
-    console.log(`This software is free software, licensed under the terms of the AGPL v3. For more information, please see LICENSE.txt`);
-    console.log(`Source available at: https://github.com/TornDotSpace/Torn`);
-
-    console.log(`torn-client-git-${BRANCH}-${COMMITHASH}`);
-    console.log(`Implementing protocol version ${VERSION}`);
-
-    // Print client modification warning
-    console.error(`***********************************************************************`);
-    console.error(`WARNING: PASTING CODE INTO HERE CAN ALLOW FOR YOUR ACCOUNT TO BE STOLEN`);
-    console.error(`ALWAYS AUDIT CODE YOU ARE INJECTING INTO THE DEVELOPER CONSOLE`);
-    console.error(`ADDITIONALLY, PLEASE RESPECT OUR TOS https://torn.space/legal/tos.pdf AND NOTE OUR PRIVACY POLICY https://torn.space/legal/privacy_policy.pdf`);
-    console.error(`***********************************************************************`);
-}
+const printStartup = require(`./utils/printStartup.js`);
+const core = require(`./core.js`);
 
 printStartup();
 
-loginInProgress = false;
+printStartup();
+
+core.loginInProgress = false;
 
 window.document.title = `torn.space`;
 
-isChrome = true || !(!window.chrome) && !(!window.chrome.webstore);// broken
+core.isChrome = true || !(!window.chrome) && !(!window.chrome.webstore);// broken
 
-canvas = document.getElementById(`ctx`);
+core.canvas = document.getElementById(`ctx`);
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-ctx = canvas.getContext(`2d`, { alpha: false });
-ReactRoot = ReactRootJS;
-const { Howl, Howler } = require(`howler`); // audio
+core.ctx = canvas.getContext(`2d`, { alpha: false });
+core.ReactRoot = ReactRootJS;
 
-teamColors = [`red`, `blue`, `green`];
-sectorWidth = 14336;
-mx = 0; my = 0; mb = 0;
-tick = 0;
-scrx = 0; scry = 0;
-mapSz = -1;
-quests = 0; quest = 0;
-login = false; lore = false;
-px = 0; py = 0; pc = 0; pangle = 0; isLocked = false; pvx = 0; pvy = 0;
-phealth = 0;
-mapZoom = 1;
-myxx1 = 0; myxx2 = 0; myxx3 = 0; myxx4 = 0;
-myyy1 = 0; myyy2 = 0; myyy3 = 0; myyy4 = 0;
-pscx = 0; pscy = 0; psga = 0;
-bxo = 0; byo = 0; bx = 0; by = 0;
-iron = 0; silver = 0; platinum = 0; copper = 0;
-kills = 0; baseKills = 0; money = 0; experience = 0; rank = 0;
-sx = 0; sy = 0;
-docked = false; actuallyBuying = true;
-tab = 0; confirmer = -1; shipView = 0; volTransparency = 0; gVol = 0.5;
-typing = false;
-stopTyping = () => {
+core.teamColors = [`red`, `blue`, `green`];
+core.sectorWidth = 14336;
+core.mx = 0; core.my = 0; core.mb = 0;
+core.tick = 0;
+core.scrx = 0; core.scry = 0;
+core.mapSz = -1;
+core.quests = 0; core.quest = 0;
+core.login = false; core.lore = false;
+core.px = 0; core.py = 0; core.pc = 0; core.pangle = 0; core.isLocked = false; core.pvx = 0; core.pvy = 0;
+core.phealth = 0;
+core.mapZoom = 1;
+core.myxx1 = 0; core.myxx2 = 0; core.myxx3 = 0; core.myxx4 = 0;
+core.myyy1 = 0; core.myyy2 = 0; core.myyy3 = 0; core.myyy4 = 0;
+core.pscx = 0; core.pscy = 0; core.psga = 0;
+core.bxo = 0; core.byo = 0; core.bx = 0; core.by = 0;
+core.iron = 0; core.silver = 0; core.platinum = 0; core.copper = 0;
+core.kills = 0; core.baseKills = 0; core.money = 0; core.experience = 0; core.rank = 0;
+core.sx = 0; core.sy = 0;
+core.docked = false; core.actuallyBuying = true;
+core.tab = 0; core.confirmer = -1; core.shipView = 0; core.volTransparency = 0; core.gVol = 0.5;
+core.typing = false;
+core.stopTyping = () => {
     typing = false;
 };
-centered = false;
-afk = false;
+core.centered = false;
+core.afk = false;
 
-baseMap2D = {};
-planetMap2D = {};
-myGuild = {};
+core.baseMap2D = {};
+core.planetMap2D = {};
+core.myGuild = {};
 
-homepageTimer = 0; loreTimer = 0;
-raidTimer = -1; raidRed = 0; raidBlue = 0; raidGreen = 0; points = 0;
-shield = false; autopilot = false;
-seller = 0; worth = 0; ship = 0;
-empTimer = -1; dmgTimer = -1; gyroTimer = 0;
-t2 = 1; mh2 = 1; c2 = 1; va2 = 1; e2 = 1; ag2 = 1;
-dead = false; lives = 50; sLag = 0; nLag = 0; clientLag = -40; fps = 0; ops = 0; frames = 0; uframes = 0; ups = 0; dev = false;
-credentialState = 0;
-savedNote = 0;
-myName = `GUEST`; currAlert = ``; bigAlert = ``; disguise = 0;
-soundAllowed = false;
-currLoading = ``;
-secret2PlanetName = ``;
-meanNLag = 0; nLagCt = 0;
+core.homepageTimer = 0; core.loreTimer = 0;
+core.raidTimer = -1; core.raidRed = 0; core.raidBlue = 0; core.raidGreen = 0; core.points = 0;
+core.shield = false; core.autopilot = false;
+core.seller = 0; core.worth = 0; core.ship = 0;
+core.empTimer = -1; core.dmgTimer = -1; core.gyroTimer = 0;
+core.t2 = 1; core.mh2 = 1; core.c2 = 1; core.va2 = 1; core.e2 = 1; core.ag2 = 1;
+core.dead = false; core.lives = 50; core.sLag = 0; core.nLag = 0; core.clientLag = -40; core.fps = 0; core.ops = 0; core.frames = 0; core.uframes = 0; core.ups = 0; core.dev = false;
+core.credentialState = 0;
+core.savedNote = 0;
+core.myName = `GUEST`; core.currAlert = ``; core.bigAlert = ``; core.disguise = 0;
+core.soundAllowed = false;
+core.currLoading = ``;
+core.secret2PlanetName = ``;
+core.meanNLag = 0; core.nLagCt = 0;
 
-booms = {};
-boomParticles = {};
-trails = {};
-myTrail = 0;
-notes = {};
-bullets = {};
-planets = 0; hmap = 0; lb = 0; youi = 0;
-keys = []; lagArr = 0;
+core.booms = {};
+core.boomParticles = {};
+core.trails = {};
+core.myTrail = 0;
+core.notes = {};
+core.bullets = {};
+core.planets = 0; core.hmap = 0; core.lb = 0; core.youi = 0;
+core.keys = []; core.lagArr = 0;
 
-w = window.innerWidth;
-h = window.innerHeight; // Canvas width and height
+core.w = window.innerWidth;
+core.h = window.innerHeight; // Canvas width and height
 
-basesInfo = undefined;
-playersInfo = { };
-minesInfo = { };
-orbsInfo = { };
-missilesInfo = { };
-vortsInfo = { };
-beamsInfo = { };
-blastsInfo = { };
-astsInfo = { };
-packsInfo = { };
+core.basesInfo = undefined;
+core.playersInfo = { };
+core.minesInfo = { };
+core.orbsInfo = { };
+core.missilesInfo = { };
+core.vortsInfo = { };
+core.beamsInfo = { };
+core.blastsInfo = { };
+core.astsInfo = { };
+core.packsInfo = { };
 
-clientmutes = { };
+core.clientmutes = { };
 // for initial loading screen
-EVERYTHING_LOADED = false;
+core.EVERYTHING_LOADED = false;
 
-guest = false;
+core.guest = false;
 
-stars = [];
+core.stars = [];
 for (let i = 0; i < 30; i++) stars[i] = { x: Math.random() * w, y: Math.random() * h };
 
-myId = undefined;
+core.myId = undefined;
 
-killStreak = 0; killStreakTimer = -1;
-badWeapon = 0;
-mouseDown = false;
-flash = 0;
-hyperdriveTimer = 0;
-didW = false; didSteer = false; currTut = 0;
+core.killStreak = 0; core.killStreakTimer = -1;
+core.badWeapon = 0;
+core.mouseDown = false;
+core.flash = 0;
+core.hyperdriveTimer = 0;
+core.didW = false; core.didSteer = false; core.currTut = 0;
 
-sectorPoints = 0;
+core.sectorPoints = 0;
 
 require(`./audio.js`);
 const loadAllImages = require(`./image.js`);
@@ -168,8 +142,8 @@ require(`./BaseMenu/BaseMenu.js`);
 require(`./input.js`);
 require(`./chat.ts`);
 
-wepns = jsn.weapons;
-ships = jsn.ships;
+core.wepns = jsn.weapons;
+core.ships = jsn.ships;
 
 ReactRoot.socket = socket; // Just to make socket accessible in react.js
 
@@ -186,10 +160,10 @@ ReactDOM.render(
 ReactRoot.turnOnDisplay(`LoginOverlay`);
 
 // Used in the ship store to make the bar graphs
-maxShipThrust = -1000;
-maxShipHealth = -1000;
-maxShipCapacity = -1000;
-maxShipAgility = -1000;
+core.maxShipThrust = -1000;
+core.maxShipHealth = -1000;
+core.maxShipCapacity = -1000;
+core.maxShipAgility = -1000;
 for (const i in ships) {
     const ship = ships[i];
     if (ship.thrust > maxShipThrust) maxShipThrust = ship.thrust;
@@ -202,12 +176,12 @@ for (const j in wepns) {
     if (!wepns[j].enabled) { delete wepns[j]; }
 }
 const weaponTypeOrder = { Gun: 0, Mine: 1, Missile: 2, Beam: 3, Orb: 4, Blast: 5, Misc: 6 };
-o = 0;
+core.o = 0;
 for (const j in wepns) {
     wepns[j].order = o;
     o++;
 }
-wepnCount = Object.keys(wepns).length;
+core.wepnCount = Object.keys(wepns).length;
 for (let j = 0; j < wepnCount - 1; j++) { // this nifty loop sorts weapons by ship
     const woj = weaponWithOrder(j);
     const woj1 = weaponWithOrder(j + 1);
@@ -224,22 +198,22 @@ wepns[-2] = { name: `` };
 wepns[-1] = { name: translate(`Empty`) };
 wepnCount += 2;
 
-scroll = 0; weaponTimer = 0; charge = 0;
-equipped = 0; ammos = {};
-musicAudio = 0;
+core.scroll = 0; core.weaponTimer = 0; core.charge = 0;
+core.equipped = 0; core.ammos = {};
+core.musicAudio = 0;
 
-redShips = [];
-blueShips = [];
-greenShips = [];
-planetImgs = [];
-Img = {};
-Img_prgs = [0 /* Count of loaded images */, 0];
+core.redShips = [];
+core.blueShips = [];
+core.greenShips = [];
+core.planetImgs = [];
+core.Img = {};
+core.Img_prgs = [0 /* Count of loaded images */, 0];
 
 loadAllImages();
 loadAllAudio();
 
-achs = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
-bigNotes = [-1, -1, -1, -1];
+core.achs = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+core.bigNotes = [-1, -1, -1, -1];
 
 function forceRefresh () {
     window.location.reload(true);
