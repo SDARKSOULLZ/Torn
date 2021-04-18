@@ -27,8 +27,6 @@ const core = require(`./core.js`);
 
 printStartup();
 
-printStartup();
-
 core.loginInProgress = false;
 
 window.document.title = `torn.space`;
