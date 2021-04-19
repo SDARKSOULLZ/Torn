@@ -1,4 +1,5 @@
 const imageUtil = require(`./utils/image.js`);
+const audioUtil = require(`./utils/audio.js`);
 
 const loadAllImages = () => {
     // Misc.
@@ -100,6 +101,21 @@ const loadAllImages = () => {
     }
 };
 
+const loadAllAudio = () => {
+    audioUtil.loadAudio(`minigun`, `/aud/minigun.mp3`);
+    audioUtil.loadAudio(`boom`, `/aud/boom.mp3`);
+    audioUtil.loadAudio(`hyperspace`, `/aud/hyperspace.mp3`);
+    audioUtil.loadAudio(`bigboom`, `/aud/bigboom.wav`);
+    audioUtil.loadAudio(`shot`, `/aud/shot.mp3`);
+    audioUtil.loadAudio(`beam`, `/aud/beam.wav`);
+    audioUtil.loadAudio(`missile`, `/aud/whoosh.mp3`);
+    audioUtil.loadAudio(`sector`, `/aud/sector.wav`);
+    audioUtil.loadAudio(`money`, `/aud/money.wav`);
+    audioUtil.loadAudio(`button2`, `/aud/button2.wav`);
+    audioUtil.loadAudio(`noammo`, `/aud/noammo.wav`);
+};
+
 module.exports = {
-    loadAllImages
+    loadAllImages,
+    loadAllAudio
 };
