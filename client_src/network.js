@@ -28,5 +28,6 @@ const connect = () => {
 const sendAPI = async (endpoint, data) => await fetch(core.API_URL + endpoint);
 
 module.exports = {
-    connect
+    connect,
+    sendAPI
 };
