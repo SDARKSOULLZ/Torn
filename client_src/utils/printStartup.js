@@ -1,3 +1,4 @@
+const core = require(`../core.js`);
 
 const printStartup = () => {
     console.log(`******************************************************************************************************`);
@@ -18,8 +19,8 @@ const printStartup = () => {
     console.log(`This software is free software, licensed under the terms of the AGPL v3. For more information, please see LICENSE.txt`);
     console.log(`Source available at: https://github.com/TornDotSpace/Torn`);
 
-    console.log(`torn-client-git-${BRANCH}-${COMMITHASH}`);
-    console.log(`Implementing protocol version ${VERSION}`);
+    console.log(`torn-client-git-${core.branch}-${core.commitHash}`);
+    console.log(`Implementing protocol version ${core.version}`);
 
     // Print client modification warning
     console.error(`***********************************************************************`);

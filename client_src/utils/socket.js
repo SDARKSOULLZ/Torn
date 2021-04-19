@@ -18,13 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const io = require(`socket.io-client`);
 const msgpack = require(`socket.io-msgpack-parser`);
 
-const API_URL = `${TORN_API_URL}/api`;
-const GAMESERVER_URL = TORN_GAMESERVER_URL;
+const core = require(`../core.js`);
 
-console.log(`Using "${API_URL}" as the api url.`);
-console.log(`Using "${GAMESERVER_URL}" as the gameserver url.`);
+console.log(`Using "${core.apiURL}" as the api URL.`);
+console.log(`Using "${core.gameServerURL}" as the gameserver URL.`);
 
-const socket = io(GAMESERVER_URL, {
+const socket = io(core.gameServerURL, {
     autoConnect: false,
     parser: msgpack
 });

@@ -17,12 +17,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { jsn, translate } from './localizer.ts';
 
+const core = require(`./core.js`);
 const socket = require(`./utils/socket.js`);
 
 const connect = () => {
     if (socket.connected) return;
     socket.open();
 };
+
+const sendAPI = async (endpoint, data) => await fetch(core.API_URL + endpoint);
 
 module.exports = {
     connect
