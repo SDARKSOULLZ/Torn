@@ -15,13 +15,16 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { translate } from "./localizer.ts";
+import { translate } from './localizer.ts';
 
-const core = require(`./core.js`);
+const core = require(`../core.js`);
 
-core.getSectorName = (inx, iny) => `${String.fromCharCode(97 + inx).toUpperCase()}${iny + 1}`;
+const sins = [];
+for (let i = 0; i < 1571; i++) sins[i] = Math.sin(i / 1000.0);
 
-core.getQuestDescription = function (q) {
+const getSectorName = (inx, iny) => `${String.fromCharCode(97 + inx).toUpperCase()}${iny + 1}`;
+
+const getQuestDescription = (q) => {
     if (q.type === `Mining`) return translate(`Bring # units of # to sector #.`, [numToLS(q.amt), q.metal, getSectorName(q.sx, q.sy)]);
     if (q.type === `Base`) return translate(`Eliminate enemy base in sector #.`, [getSectorName(q.sx, q.sy)]);
     if (q.type === `Delivery`) return translate(`Obtain package from planet # and deliver it to planet #.`, [getSectorName(q.sx, q.sy), getSectorName(q.dsx, q.dsy)]);
@@ -32,87 +35,90 @@ core.getQuestDescription = function (q) {
     return `QUEST_DESCRIPTION_ERROR`;
 };
 
-core.write = function (context, str, x, y) {
+const write = (context, str, x, y) => {
     context.fillText(str, x, y);
 };
 
-core.getMousePos = function (canvas, evt) {
+const getMousePos = (canvas, evt) => {
     const rect = canvas.getBoundingClientRect();
     return {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top
     };
 };
-core.cube = (x) => x * x * x;
 
-core.sins = [];
-for (let i = 0; i < 1571; i++)// 500pi
-{
-    core.sins[i] = Math.sin(i / 1000.0);
-}
-core.sinLow = function (x) {
+const cube = (x) => x * x * x;
+
+const sinLow = (x) => {
     x += Math.PI * 200;
     x %= Math.PI * 2;
     const modpi = x % Math.PI;
     return (x > Math.PI ? -1 : 1) * sins[Math.floor(((modpi < Math.PI / 2) ? (modpi) : (Math.PI - modpi)) * 1000)];
 };
-core.cosLow = (x) => sinLow(x + Math.PI / 2);
 
-core.colorSelect = function (col, red, blue, green) {
+const cosLow = (x) => sinLow(x + Math.PI / 2);
+
+const colorSelect = (col, red, blue, green) => {
     if (col === `red`) return red;
     if (col === `blue`) return blue;
     return green;
 };
-core.square = (x) => x * x;
-core.r2x = function (x) {
+
+const square = (x) => x * x;
+
+const r2x = (x) => {
     const ranks = [0, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 4000, 8000, 14000, 20000, 40000, 70000, 100000, 140000, 200000, 300000, 500000, 800000, 1000000, 1500000, 2000000, 3000000, 5000000, 8000000, 12000000, 16000000, 32000000, 64000000, 100000000, 200000000, 400000000, 1000000000];
     return x < 0 ? 0 : ranks[x];
 };
-core.CoherentNoise = function (x) {
+
+const CoherentNoise = (x) => {
     const intX = Math.floor(x);
     const w = x - intX;
     const n0 = Math.sin(square(intX) * 1000);
     const n1 = Math.sin(square(intX + 1) * 1000);
     return n0 + (n1 - n0) * (w * w / 2 - w * w * w / 3) * 6;
 };
-core.lerp = (a, b, w) => a * (1 - w) + b * w;
 
-core.expToLife = () => Math.floor(guest ? 0 : 800000 * Math.atan(experience / 600000.0)) + 500;
-core.abbrevInt = function (x) {
+const lerp = (a, b, w) => a * (1 - w) + b * w;
+
+const expToLife = (guest, experience) => Math.floor(guest ? 0 : 800000 * Math.atan(experience / 600000.0)) + 500;
+
+const abbrevInt = (x) => {
     if (x < 10000) return `${Math.round(x)}`;
     if (x < 10000000) return Math.round(x / 1000) + translate(`K`);
     if (x < 10000000000) return Math.round(x / 1000000) + translate(`M`);
 };
-core.lagMath = function (arr) {
-    if (lagArr == 0) {
-        lagArr = arr;
-        return;
-    }
-    for (let i = 0; i < arr.length; i++) {
-        lagArr[i] = (lagArr[i] + arr[i] / 20) / 1.05;
-    }
+
+const lagMath = (arr) => {
+    if (core.lagArr === 0) core.lagArr = arr;
+    else for (let i = 0; i < arr.length; i++) core.lagArr[i] = (core.lagArr[i] + arr[i] / 20) / 1.05;
 };
-core.addBigNote = function (note) {
+
+const addBigNote = (note) => {
     // set i to the least empty index of bigNotes
     let i = 0;
-    for (i; i < 4; i++) if (bigNotes[i] == -1) break;
+    for (i; i < 4; i++) if (core.bigNotes[i] === -1) break;
 
     // and use that index for queue
-    bigNotes[i] = note;
+    core.bigNotes[i] = note;
 };
-core.bgPos = (x, px, scrx, i, tileSize) => ((scrx - px) / ((sectorWidth / tileSize) >> i)) % tileSize + tileSize * x;
-core.weaponWithOrder = function (x) {
+
+const bgPos = (x, px, scrx, i, tileSize) => ((scrx - px) / ((core.sectorWidth / core.tileSize) >> i)) % tileSize + tileSize * x;
+
+const weaponWithOrder = (x) => {
     for (const i in wepns) if (wepns[i].order == x) return parseInt(i);
 };
-core.getTimeAngle = () => tick / 10;
-core.brighten = function (x) {
+
+const getTimeAngle = () => core.game.tick / 10;
+
+const brighten = (x) => {
     if (x === `red`) return `pink`;
     if (x === `green`) return `lime`;
     if (x === `blue`) return `cyan`;
     return x;
 };
 
-core.numToLS = function (x) {
+const numToLS = (x) => {
     if (!Number.isFinite(x)) return `NaN`;
     if (x < 0) return `-${numToLS(-x)}`;
     if (x == 0) return `0`;
@@ -132,20 +138,72 @@ core.numToLS = function (x) {
     return str;
 };
 
-core.techPrice = (x) => // money required to upgrade Tech
-    techEnergy(nextTechLevel(x)) - techEnergy(x);
-core.techPriceForDowngrade = function (x) { // money required to upgrade Tech
+const techPrice = (x) => techEnergy(nextTechLevel(x)) - techEnergy(x);
+
+const techPriceForDowngrade = (x) => {
     if (myName.startsWith(`[V] `)) return techEnergy(lastTechLevel(x)) - techEnergy(x);
     return Math.max(techEnergy(lastTechLevel(x)) - techEnergy(x), -300000000);
 };
-core.techEnergy = (x) => // Net price of some tech level
-    Math.round(Math.pow(1024, x) / 1000) * 500;
-core.nextTechLevel = (x) => Math.floor(x * 8.0 + 1) / 8.0;
-core.lastTechLevel = (x) => Math.floor(x * 8.0 - 0.001) / 8.0;
-core.getPosition = (string, subString, index) => string.split(subString, index).join(subString).length;
-core.ammoCodeToString = function (code) { // used in weapon shop rendering
+
+const techEnergy = (x) => Math.round(Math.pow(1024, x) / 1000) * 500;
+
+const nextTechLevel = (x) => Math.floor(x * 8.0 + 1) / 8.0;
+
+const lastTechLevel = (x) => Math.floor(x * 8.0 - 0.001) / 8.0;
+
+const getPosition = (string, subString, index) => string.split(subString, index).join(subString).length;
+
+const ammoCodeToString = function (code) { // used in weapon shop rendering
     if (code >= 0) return `${code}`;
     if (code == -1) return translate(`Inf.`);
     if (code == -2) return translate(`Only One`);
     else return ``;
+};
+
+module.exports = {
+    getSectorName,
+    getQuestDescription,
+
+    write,
+    getMousePos,
+
+    cube,
+
+    sinLow,
+    cosLow,
+
+    colorSelect,
+
+    square,
+    r2x,
+
+    CoherentNoise,
+
+    lerp,
+
+    expToLife,
+    abbrevInt,
+
+    lagMath,
+    addBigNote,
+
+    bgPos,
+
+    weaponWithOrder,
+
+    getTimeAngle,
+    brighten,
+
+    numToLS,
+
+    techPrice,
+    techPriceForDowngrade,
+
+    techEnergy,
+
+    nextTechLevel,
+    lastTechLevel,
+
+    getPosition,
+    ammoCodeToString
 };

@@ -41,6 +41,34 @@ socket.on(`connect_error`, (err) => {
 
 // Packet handling.
 socket.on(`posUp`, (data) => {
+    core.game = {
+        x: data.x,
+        y: data.y,
+
+        health: data.health,
+        isLocked: data.isLocked,
+        charge: data.charge,
+
+        scrx: null,
+        scry: null,
+
+        rotation: null,
+        shield: null,
+
+        disguise: null,
+        trail: null,
+
+        docked: null,
+
+        empTimer: null,
+        gyroTimer: null,
+        killStreakTimer: null
+    }
+    core.game.player.x = data.x;
+    core.game.player.y = data.y;
+
+    core.game.player.health = data.health;
+    core.game.player.isLocked = data.isLocked;
 });
 
 module.exports = {
