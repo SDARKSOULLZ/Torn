@@ -24,14 +24,14 @@ for (let i = 0; i < 1571; i++) sins[i] = Math.sin(i / 1000.0);
 
 const getSectorName = (inx, iny) => `${String.fromCharCode(97 + inx).toUpperCase()}${iny + 1}`;
 
-const getQuestDescription = (q) => {
+const getQuestDescription = (q, secret2PlanetName) => {
     if (q.type === `Mining`) return translate(`Bring # units of # to sector #.`, [numToLS(q.amt), q.metal, getSectorName(q.sx, q.sy)]);
     if (q.type === `Base`) return translate(`Eliminate enemy base in sector #.`, [getSectorName(q.sx, q.sy)]);
     if (q.type === `Delivery`) return translate(`Obtain package from planet # and deliver it to planet #.`, [getSectorName(q.sx, q.sy), getSectorName(q.dsx, q.dsy)]);
     if (q.type === `Secret`) return translate(`Proceed to sector # for further instructions.`, [getSectorName(q.sx, q.sy)]);// translate("Secret Mission.");
     if (q.type === `Secret2`) return translate(`Eliminate all enemy players and turrets in # and visit planet #.`, [getSectorName(q.sx, q.sy), secret2PlanetName]);
     if (q.type === `Secret3`) return translate(`Deliver package to a permanent black hole sector.`);
-    console.log(q);
+
     return `QUEST_DESCRIPTION_ERROR`;
 };
 
@@ -105,7 +105,7 @@ const addBigNote = (note) => {
 
 const bgPos = (x, px, scrx, i, tileSize) => ((scrx - px) / ((core.sectorWidth / core.tileSize) >> i)) % tileSize + tileSize * x;
 
-const weaponWithOrder = (x) => {
+const weaponWithOrder = (x, wepns) => {
     for (const i in wepns) if (wepns[i].order == x) return parseInt(i);
 };
 
@@ -140,8 +140,8 @@ const numToLS = (x) => {
 
 const techPrice = (x) => techEnergy(nextTechLevel(x)) - techEnergy(x);
 
-const techPriceForDowngrade = (x) => {
-    if (myName.startsWith(`[V] `)) return techEnergy(lastTechLevel(x)) - techEnergy(x);
+const techPriceForDowngrade = (name, x) => {
+    if (name.startsWith(`[V] `)) return techEnergy(lastTechLevel(x)) - techEnergy(x);
     return Math.max(techEnergy(lastTechLevel(x)) - techEnergy(x), -300000000);
 };
 

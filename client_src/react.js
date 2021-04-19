@@ -16,6 +16,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 import React, { Component } from 'react';
 
+const core = require(`./core.js`);
+const network = require(`./network.js`);
+
 export default class ReactRoot extends Component {
     constructor (props) {
         super(props);
@@ -144,44 +147,44 @@ class Register extends Component {
         this.setState({ off: true });
     }
 
-	handleChangeU = (event) => {
-	    this.setState({ user: event.target.value, pass: this.state.pass });
-	}
+    handleChangeU = (event) => {
+        this.setState({ user: event.target.value, pass: this.state.pass });
+    }
 
-	handleChangeP = (event) => {
-	    this.setState({ user: this.state.user, pass: event.target.value });
-	}
+    handleChangeP = (event) => {
+        this.setState({ user: this.state.user, pass: event.target.value });
+    }
 
-	render () {
-	    return (
-	        this.props.register
-	            ? (
-	            <div className="register-menu">
-	                <center>
-	                    <h3>Create an account!</h3><br />
-	                    <input className="overlay-input" type="text" onChange={this.handleChangeU} placeholder="Username" maxLength="16" style={{ margin: 8 }} />
-	                    <input className="overlay-input" type="password" onChange={this.handleChangeP} placeholder="Password" maxLength="32" style={{ margin: 8 }} />
-	                    <br /><button className="register" onClick={this.register}>Register!</button>
-	                    <br />
-	                    <br />
-						By registering, you agree to follow our terms of service and abide by our privacy policy.
-	                    <a href="legal/privacy_policy.pdf" > Privacy Policy |	</a>
-	                    <a href="legal/tos.pdf" > Terms of Service </a><br/>
-	                    <br />
-						Remember, never give your password to anyone!!
-	                </center>
-	            </div>
-	        )
-	            : null
-	    );
-	}
+    render () {
+        return (
+            this.props.register
+                ? (
+                    <div className="register-menu">
+                        <center>
+                            <h3>Create an account!</h3><br />
+                            <input className="overlay-input" type="text" onChange={this.handleChangeU} placeholder="Username" maxLength="16" style={{ margin: 8 }} />
+                            <input className="overlay-input" type="password" onChange={this.handleChangeP} placeholder="Password" maxLength="32" style={{ margin: 8 }} />
+                            <br /><button className="register" onClick={this.register}>Register!</button>
+                            <br />
+                            <br />
+                        By registering, you agree to follow our terms of service and abide by our privacy policy.
+                            <a href="legal/privacy_policy.pdf" > Privacy Policy |    </a>
+                            <a href="legal/tos.pdf" > Terms of Service </a><br/>
+                            <br />
+                        Remember, never give your password to anyone!!
+                        </center>
+                    </div>
+                )
+                : null
+        );
+    }
 
-	register = () => {
-	    let user = this.state.user;
-	    let pass = this.state.pass;
-	    if (typeof ReactRoot.socket !== `undefined`)
-	        ReactRoot.socket.emit(`register`, { user: user, pass: pass });
-	}
+    register = () => {
+        let user = this.state.user;
+        let pass = this.state.pass;
+        if (typeof ReactRoot.socket !== `undefined`)
+            ReactRoot.socket.emit(`register`, { user: user, pass: pass });
+    }
 }
 
 class LoginOverlay extends Component {
@@ -196,149 +199,146 @@ class LoginOverlay extends Component {
         };
     }
 
-	handleChangeU = (event) => {
-	    this.setState({ user: event.target.value, pass: this.state.pass });
-	}
+    handleChangeU = (event) => {
+        this.setState({ user: event.target.value, pass: this.state.pass });
+    }
 
-	handleChangeP = (event) => {
-	    this.setState({ user: this.state.user, pass: event.target.value });
-	}
+    handleChangeP = (event) => {
+        this.setState({ user: this.state.user, pass: event.target.value });
+    }
 
-	render () {
-	    /*
-		const video = (this.state.seed * 2 % 1 < 0.25) ?
-			(<iframe width="368" height="207" src="https://www.youtube.com/embed/iLlFIS1PLOo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>)
-			: (<iframe width="368" height="207" src="https://www.youtube.com/embed/44MIPle7pwQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>);
-		*/
+    render () {
+        /*
+        const video = (this.state.seed * 2 % 1 < 0.25) ?
+            (<iframe width="368" height="207" src="https://www.youtube.com/embed/iLlFIS1PLOo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>)
+            : (<iframe width="368" height="207" src="https://www.youtube.com/embed/44MIPle7pwQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>);
+        */
 
-	    const buttonOrder = (this.state.seed < 0.66)
-	        ? ((this.state.seed < 0.33)
-	            ? (
-	        <div>
-	            <button id="registerR" onClick={this.registerR}>Join Alien Team!</button>
-	            <button id="registerB" onClick={this.registerB}>Join Human Team!</button>
-	            <button id="registerG" onClick={this.registerG}>Join Cyborg Team!</button>
-	        </div>
-	    )
-	            : (
-	        <div>
-	            <button id="registerG" onClick={this.registerG}>Join Cyborg Team!</button>
-	            <button id="registerR" onClick={this.registerR}>Join Alien Team!</button>
-	            <button id="registerB" onClick={this.registerB}>Join Human Team!</button>
-	        </div>
-	    ))
-	        : (
-	        <div>
-	            <button id="registerB" onClick={this.registerB}>Join Human Team!</button>
-	            <button id="registerG" onClick={this.registerG}>Join Cyborg Team!</button>
-	            <button id="registerR" onClick={this.registerR}>Join Alien Team!</button>
-	        </div>
-	    );
+        const buttonOrder = (this.state.seed < 0.66)
+            ? ((this.state.seed < 0.33)
+                ? (
+                    <div>
+                        <button id="registerR" onClick={this.registerR}>Join Alien Team!</button>
+                        <button id="registerB" onClick={this.registerB}>Join Human Team!</button>
+                        <button id="registerG" onClick={this.registerG}>Join Cyborg Team!</button>
+                    </div>
+                )
+                : (
+                    <div>
+                        <button id="registerG" onClick={this.registerG}>Join Cyborg Team!</button>
+                        <button id="registerR" onClick={this.registerR}>Join Alien Team!</button>
+                        <button id="registerB" onClick={this.registerB}>Join Human Team!</button>
+                    </div>
+                ))
+            : (
+                <div>
+                    <button id="registerB" onClick={this.registerB}>Join Human Team!</button>
+                    <button id="registerG" onClick={this.registerG}>Join Cyborg Team!</button>
+                    <button id="registerR" onClick={this.registerR}>Join Alien Team!</button>
+                </div>
+            );
 
-	    return !this.props.display
-	        ? null
-	        : (
-	        <div>
-	            <div className="overlay-menu">
-	                <div className="container">
-	                    <div className="guests">
-	                        <center><h3>New Players</h3>
-	                            {buttonOrder}
-	                        </center>
-	                    </div>
-	                    <div className="video">
-	                        {/*
-							<center><h3>Featured Video!</h3>
-								{video}
-								<br /><a href="youtubers/">Have a channel?</a></center>
-							*/}
-	                        <center>
-	                            <img src="img/harrlogo.png" alt="Logo" width="340"/>
-	                        </center>
-	                    </div>
-	                    <div className="login">
-	                        <center><h3>Returning Players</h3>
-	                            <input className="overlay-input" type="text" id="usernameid" onChange={this.handleChangeU} placeholder="Username" />
-	                            <input className="overlay-input" type="password" id="passid" onChange={this.handleChangeP} placeholder="Password" />
-	                            <button className="overlay-button" id="loginButton" onClick={this.login}>Login</button></center>
-	                    </div>
-	                </div>
-	            </div>
-	            <div className="discord">
-	                <a href="legal/privacy_policy.pdf" > Privacy Policy |	</a>
-	                <a href="legal/tos.pdf" > Terms of Service </a><br/>
-	                <a onClick={this.langEng} >Eng|</a>
-	                <a onClick={this.langEsp} >Esp|</a>
-	                <a onClick={this.langTki} >Tki|</a>
-	                <a onClick={this.langChn} >Chn</a>
-	            </div>
-	        </div>);
-	}
+        return !this.props.display
+            ? null
+            : (
+                <div>
+                    <div className="overlay-menu">
+                        <div className="container">
+                            <div className="guests">
+                                <center><h3>New Players</h3>
+                                    {buttonOrder}
+                                </center>
+                            </div>
+                            <div className="video">
+                                {/*
+                            <center><h3>Featured Video!</h3>
+                                {video}
+                                <br /><a href="youtubers/">Have a channel?</a></center>
+                            */}
+                                <center>
+                                    <img src="img/harrlogo.png" alt="Logo" width="340"/>
+                                </center>
+                            </div>
+                            <div className="login">
+                                <center><h3>Returning Players</h3>
+                                    <input className="overlay-input" type="text" id="usernameid" onChange={this.handleChangeU} placeholder="Username" />
+                                    <input className="overlay-input" type="password" id="passid" onChange={this.handleChangeP} placeholder="Password" />
+                                    <button className="overlay-button" id="loginButton" onClick={this.login}>Login</button></center>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="discord">
+                        <a href="legal/privacy_policy.pdf" > Privacy Policy |    </a>
+                        <a href="legal/tos.pdf" > Terms of Service </a><br/>
+                        <a onClick={this.langEng} >Eng|</a>
+                        <a onClick={this.langEsp} >Esp|</a>
+                        <a onClick={this.langTki} >Tki|</a>
+                        <a onClick={this.langChn} >Chn</a>
+                    </div>
+                </div>);
+    }
 
-	login = async () => {
-	    if (loginInProgress) return;
-	    loginInProgress = true;
+    login = async () => {
+        let user = this.state.user;
+        let pass = this.state.pass;
 
-	    let user = this.state.user;
-	    let pass = this.state.pass;
+        if (user == `` || pass == ``) {
+            return;
+        }
 
-	    if (user == `` || pass == ``) {
-	        return;
-	    }
+        if (typeof ReactRoot.socket !== `undefined`) {
+            let playcookie = await network.sendAPI(`/login/`, `${user}%${pass}`);
 
-	    if (typeof ReactRoot.socket !== `undefined`) {
-	        let playcookie = await send_api(`/login/`, `${user}%${pass}`);
+            if (playcookie.status == 403) {
+                core.credentialState = 1;
+                core.loginInProgress = false;
+                return;
+            } else if (playcookie.status != 200) {
+                alert(`Failed to connect to Torn Account Services`);
+                core.loginInProgress = false;
+                return;
+            }
 
-	        if (playcookie.status == 403) {
-	            credentialState = 1;
-	            loginInProgress = false;
-	            return;
-	        } else if (playcookie.status != 200) {
-	            alert(`Failed to connect to Torn Account Services`);
-	            loginInProgress = false;
-	            return;
-	        }
+            playcookie = await playcookie.text();
+            connect();
+            console.log(`:TornNetRepository: Got PLAYCOOKIE: ${playcookie}`);
+            ReactRoot.socket.emit(`login`, { cookie: playcookie, version: VERSION });
+        }
+    }
 
-	        playcookie = await playcookie.text();
-	        connect();
-	        console.log(`:TornNetRepository: Got PLAYCOOKIE: ${playcookie}`);
-	        ReactRoot.socket.emit(`login`, { cookie: playcookie, version: VERSION });
-	    }
-	}
+    registerB = () => {
+        network.connect();
+        if (typeof ReactRoot.socket !== `undefined`)
+            ReactRoot.socket.emit(`lore`, { team: `blue` });
+    }
 
-	registerB = () => {
-	    connect();
-	    if (typeof ReactRoot.socket !== `undefined`)
-	        ReactRoot.socket.emit(`lore`, { team: `blue` });
-	}
+    registerG = () => {
+        network.connect();
+        if (typeof ReactRoot.socket !== `undefined`)
+            ReactRoot.socket.emit(`lore`, { team: `green` });
+    }
 
-	registerG = () => {
-	    connect();
-	    if (typeof ReactRoot.socket !== `undefined`)
-	        ReactRoot.socket.emit(`lore`, { team: `green` });
-	}
+    registerR = () => {
+        network.connect();
+        if (typeof ReactRoot.socket !== `undefined`)
+            ReactRoot.socket.emit(`lore`, { team: `red` });
+    }
 
-	registerR = () => {
-	    connect();
-	    if (typeof ReactRoot.socket !== `undefined`)
-	        ReactRoot.socket.emit(`lore`, { team: `red` });
-	}
+    langEng = () => {
+        setLang(`eng`);
+    }
 
-	langEng = () => {
-	    setLang(`eng`);
-	}
+    langEsp = () => {
+        setLang(`esp`);
+    }
 
-	langEsp = () => {
-	    setLang(`esp`);
-	}
+    langTki = () => {
+        setLang(`tki`);
+    }
 
-	langTki = () => {
-	    setLang(`tki`);
-	}
-
-	langChn = () => {
-	    setLang(`chn`);
-	}
+    langChn = () => {
+        setLang(`chn`);
+    }
 }
 
 class Chat extends Component {

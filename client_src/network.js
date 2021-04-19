@@ -20,6 +20,9 @@ import { jsn, translate } from './localizer.ts';
 const core = require(`./core.js`);
 const socket = require(`./utils/socket.js`);
 
+const utils = require(`./utils/clientUtils.js`);
+const audio = require(`./utils/audio.js`);
+
 const connect = () => {
     if (socket.connected) return;
     socket.open();
@@ -41,6 +44,7 @@ socket.on(`connect_error`, (err) => {
 
 // Packet handling.
 socket.on(`posUp`, (data) => {
+    if (core.game.docked) audio.playAudio(`sector`, 1);
     core.game = {
         x: data.x,
         y: data.y,
@@ -49,26 +53,38 @@ socket.on(`posUp`, (data) => {
         isLocked: data.isLocked,
         charge: data.charge,
 
-        scrx: null,
-        scry: null,
+        scrx: -utils.cosLow(data.angle) * data.speed,
+        scry: -utils.sinLow(data.angle) * data.speed,
 
-        rotation: null,
-        shield: null,
+        angle: data.angle,
+        shield: data.shield,
 
-        disguise: null,
-        trail: null,
+        disguise: data.disguise,
+        trail: data.trail,
 
-        docked: null,
+        docked: false,
 
-        empTimer: null,
-        gyroTimer: null,
-        killStreakTimer: null
-    }
-    core.game.player.x = data.x;
-    core.game.player.y = data.y;
+        empTimer: core.game.empTimer - 1,
+        gyroTimer: core.game.gyroTimer - 1,
+        killStreakTimer: core.killStreakTimer - 1,
 
-    core.game.player.health = data.health;
-    core.game.player.isLocked = data.isLocked;
+        info: {
+            packs: data.packs,
+            players: data.players,
+
+            bases: data.bases,
+            asteroids: data.asteroids,
+
+            beams: data.beams,
+            blasts: data.blasts,
+
+            missiles: data.missiles,
+            orbs: data.orbs,
+
+            mines: data.mines,
+            vortexes: data.vortexes
+        }
+    };
 });
 
 module.exports = {

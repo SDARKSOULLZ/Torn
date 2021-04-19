@@ -69,6 +69,9 @@
             "disallowPrototype": true,
             "singleReturnOnly": true,
             "classPropertiesAllowed": false
-        }]
+        }],
+
+        "react/prop-types": 0,
+        "react/no-string-refs": 0
     }
 }
