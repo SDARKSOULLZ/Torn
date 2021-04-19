@@ -25,7 +25,11 @@ const connect = () => {
     socket.open();
 };
 
-const sendAPI = async (endpoint, data) => await fetch(core.API_URL + endpoint);
+const sendAPI = async (endpoint, data) => await fetch(core.API_URL + endpoint, {
+    method: `POST`,
+    body: data,
+    headers: { 'Content-Type': `x-www-form-urlencoded` }
+});
 
 module.exports = {
     connect,
