@@ -44,7 +44,10 @@ const core = {
             orbs: null,
             mines: null,
             vortexes: null
-        }
+        },
+
+        tick: null,
+        uframes: null
     }
 };
 
