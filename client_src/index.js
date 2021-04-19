@@ -133,7 +133,7 @@ const imageLoader = require(`./utils/image.js`);
 
 require(`./localizer.ts`);
 require(`./helper.js`);
-require(`./network.js`);
+require(`./_network.js`);
 require(`./graphics/render.js`);
 require(`./graphics/ArrowGraphics.js`);
 require(`./graphics/minimap.js`);

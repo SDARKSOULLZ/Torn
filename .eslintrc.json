@@ -29,7 +29,9 @@
     "globals": {
         "VERSION": "readonly",
         "COMMITHASH": "readonly",
-        "BRANCH": "readonly"
+        "BRANCH": "readonly",
+        "TORN_API_URL": "readonly",
+        "TORN_GAMESERVER_URL": "readonly"
     },
 
     "rules": {
