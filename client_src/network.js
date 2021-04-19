@@ -89,7 +89,7 @@ socket.on(`posUp`, (data) => {
         audio.playAudio(`sector`, 1);
         // r3DMap();
     }
-    // clearBullets();
+    clearBullets();
 });
 
 socket.on(`update`, (data) => {
@@ -124,6 +124,90 @@ socket.on(`update`, (data) => {
     core.game.gyroTimer--;
     core.game.killStreakTimer--;
 });
+
+socket.on(`player_create`, (data) => {
+    core.game.players[data.id] = data;
+});
+
+socket.on(`player_delete`, (data) => {
+    delete core.game.players[data];
+});
+
+socket.on(`pack_create`, (data) => {
+    core.game.packs[data.id] = data.pack;
+});
+
+socket.on(`pack_delete`, (data) => {
+    delete core.game.packs[data.id];
+});
+
+socket.on(`vort_create`, (data) => {
+    core.game.vortexes[data.id] = data.pack;
+});
+
+socket.on(`vort_delete`, (data) => {
+    delete core.game.vortexes[data];
+});
+
+socket.on(`mine_create`, (data) => {
+    core.game.mines[data.id] = data.pack;
+});
+
+socket.on(`mine_delete`, (data) => {
+    delete core.game.mines[data.id];
+});
+
+socket.on(`beam_create`, (data) => {
+    core.game.beams[data.id] = data.pack;
+});
+
+socket.on(`beam_delete`, (data) => {
+    delete core.game.beams[data.id];
+});
+
+socket.on(`blast_create`, (data) => {
+    core.game.blasts[data.id] = data.pack;
+});
+
+socket.on(`blast_delete`, (data) => {
+    delete core.game.blasts[data.id];
+});
+
+socket.on(`orb_create`, (data) => {
+    core.game.orbs[data.id] = data.pack;
+});
+
+socket.on(`orb_delete`, (data) => {
+    delete core.game.orbs[data.id];
+});
+
+socket.on(`asteroid_create`, (data) => {
+    core.game.asteroids[data.id] = data.pack;
+});
+
+socket.on(`asteroid_delete`, (data) => {
+    delete core.game.asteroids[data.id];
+});
+
+socket.on(`missile_create`, (data) => {
+    core.game.missiles[data.id] = data.pack;
+});
+
+socket.on(`missile_delete`, (data) => {
+    delete core.game.missiles[data.id];
+});
+
+socket.on(`base_create`, (data) => {
+    core.game.bases = data;
+});
+
+socket.on(`base_delete`, () => {
+    core.game.bases = null;
+});
+
+const clearBullets = () => {
+    core.game.bullets = {};
+};
 
 module.exports = {
     connect,
