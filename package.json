@@ -36,6 +36,7 @@
     "@babel/preset-env": "^7.13.15",
     "@babel/preset-react": "^7.13.13",
     "@babel/runtime": "^7.13.10",
+    "@types/howler": "^2.2.2",
     "@types/socket.io": "^2.1.13",
     "@types/socket.io-client": "^1.4.36",
     "babel-loader": "^8.2.2",
