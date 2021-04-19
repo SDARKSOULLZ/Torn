@@ -44,47 +44,47 @@ socket.on(`connect_error`, (err) => {
 
 // Packet handling.
 socket.on(`posUp`, (data) => {
-    core.game.x = data.x,
-    core.game.y = data.y,
+    core.px = data.x;
+    core.py = data.y;
 
-    core.game.health = data.health;
-    core.game.isLocked = data.isLocked;
-    core.game.charge = charge;
+    core.health = data.health;
+    core.isLocked = data.isLocked;
+    core.charge = data.charge;
 
-    core.game.scrx = -utils.cosLow(data.angle) * data.speed;
-    core.game.scry = -utils.sinLow(data.angle) * data.speed;
+    core.scrx = -utils.cosLow(data.angle) * data.speed;
+    core.scry = -utils.sinLow(data.angle) * data.speed;
 
-    core.game.angle = data.angle;
-    core.game.shield = data.shield;
+    core.angle = data.angle;
+    core.shield = data.shield;
 
-    core.game.disguise = data.disguise;
-    core.game.trail = data.trail;
+    core.disguise = data.disguise;
+    core.trail = data.trail;
 
-    if (core.game.docked) audio.playAudio(`sector`, 1);
-    core.game.docked = false;
+    if (core.docked) audio.playAudio(`sector`, 1);
+    core.docked = false;
 
-    core.game.empTimer--;
-    core.game.gyroTimer--;
-    core.game.killStreakTimer--;
+    core.empTimer--;
+    core.gyroTimer--;
+    core.killStreakTimer--;
 
-    core.game.packs = data.packs;
-    core.game.players = data.players;
+    core.packs = data.packs;
+    core.players = data.players;
 
-    core.game.bases = data.bases;
-    core.game.asteroids = data.asteroids;
+    core.bases = data.bases;
+    core.asteroids = data.asteroids;
 
-    core.game.beams = data.beams;
-    core.game.blasts = data.blasts;
+    core.beams = data.beams;
+    core.blasts = data.blasts;
 
-    core.game.missiles = data.missiles;
-    core.game.orbs = data.orbs;
+    core.missiles = data.missiles;
+    core.orbs = data.orbs;
 
-    core.game.mines = data.mines;
-    core.game.vortexes = data.vortexes;
+    core.mines = data.mines;
+    core.vortexes = data.vortexes;
 
-    if (core.game.sx !== data.game.sx || core.game.sy !== data.game.sy) {
-        core.game.sx = data.sx;
-        core.game.sy = data.sy;
+    if (core.sx !== data.game.sx || core.sy !== data.game.sy) {
+        core.sx = data.sx;
+        core.sy = data.sy;
 
         audio.playAudio(`sector`, 1);
         // r3DMap();
@@ -93,11 +93,11 @@ socket.on(`posUp`, (data) => {
 });
 
 socket.on(`update`, (data) => {
-    core.game.uframes++;
-    core.game.tick++;
+    core.uframes++;
+    core.tick++;
 
-    core.game.isLocked = data.isLocked;
-    core.game.charge = data.charge;
+    core.isLocked = data.isLocked;
+    core.charge = data.charge;
 
     const delta = data.state;
     if (!delta) return;
@@ -120,93 +120,192 @@ socket.on(`update`, (data) => {
     updateBullets();
     updateTrails();
 
-    core.game.empTimer--;
-    core.game.gyroTimer--;
-    core.game.killStreakTimer--;
+    core.empTimer--;
+    core.gyroTimer--;
+    core.killStreakTimer--;
 });
 
 socket.on(`player_create`, (data) => {
-    core.game.players[data.id] = data;
+    core.players[data.id] = data;
 });
 
 socket.on(`player_delete`, (data) => {
-    delete core.game.players[data];
+    delete core.players[data];
 });
 
 socket.on(`pack_create`, (data) => {
-    core.game.packs[data.id] = data.pack;
+    core.packs[data.id] = data.pack;
 });
 
 socket.on(`pack_delete`, (data) => {
-    delete core.game.packs[data.id];
+    delete core.packs[data.id];
 });
 
 socket.on(`vort_create`, (data) => {
-    core.game.vortexes[data.id] = data.pack;
+    core.vortexes[data.id] = data.pack;
 });
 
 socket.on(`vort_delete`, (data) => {
-    delete core.game.vortexes[data];
+    delete core.vortexes[data];
 });
 
 socket.on(`mine_create`, (data) => {
-    core.game.mines[data.id] = data.pack;
+    core.mines[data.id] = data.pack;
 });
 
 socket.on(`mine_delete`, (data) => {
-    delete core.game.mines[data.id];
+    delete core.mines[data.id];
 });
 
 socket.on(`beam_create`, (data) => {
-    core.game.beams[data.id] = data.pack;
+    core.beams[data.id] = data.pack;
 });
 
 socket.on(`beam_delete`, (data) => {
-    delete core.game.beams[data.id];
+    delete core.beams[data.id];
 });
 
 socket.on(`blast_create`, (data) => {
-    core.game.blasts[data.id] = data.pack;
+    core.blasts[data.id] = data.pack;
 });
 
 socket.on(`blast_delete`, (data) => {
-    delete core.game.blasts[data.id];
+    delete core.blasts[data.id];
 });
 
 socket.on(`orb_create`, (data) => {
-    core.game.orbs[data.id] = data.pack;
+    core.orbs[data.id] = data.pack;
 });
 
 socket.on(`orb_delete`, (data) => {
-    delete core.game.orbs[data.id];
+    delete core.orbs[data.id];
 });
 
 socket.on(`asteroid_create`, (data) => {
-    core.game.asteroids[data.id] = data.pack;
+    core.asteroids[data.id] = data.pack;
 });
 
 socket.on(`asteroid_delete`, (data) => {
-    delete core.game.asteroids[data.id];
+    delete core.asteroids[data.id];
 });
 
 socket.on(`missile_create`, (data) => {
-    core.game.missiles[data.id] = data.pack;
+    core.missiles[data.id] = data.pack;
 });
 
 socket.on(`missile_delete`, (data) => {
-    delete core.game.missiles[data.id];
+    delete core.missiles[data.id];
 });
 
 socket.on(`base_create`, (data) => {
-    core.game.bases = data;
+    core.bases = data;
 });
 
 socket.on(`base_delete`, () => {
-    core.game.bases = null;
+    core.bases = null;
 });
 
 const clearBullets = () => {
-    core.game.bullets = {};
+    core.bullets = {};
+};
+
+const updatePlayer = (data) => {
+    const id = data.id;
+    const delta = data.delta;
+
+    if (core.players[id] === undefined) return;
+
+    for (const d in delta) core.players[id][d] = delta[d];
+
+    if (id === core.myID) {
+        core.pvx = -core.px;
+        core.pvy = -core.py;
+
+        core.px = core.players[id].x;
+        core.py = core.players[id].y;
+
+        core.pvx += core.px;
+        core.pvy += core.py;
+
+        core.angle = core.players[id].angle;
+        core.health = core.players[id].health;
+
+        core.scrx = -utils.cosLow(core.angle) * core.players[id].speed;
+        core.scry = -utils.cosLow(core.angle) * core.players[id].speed;
+
+        core.disguise = delta.disguise;
+    }
+};
+
+const updateVortex = (data) => {
+    const id = data.id;
+    if (core.vortexes[id] === undefined) return;
+
+    const delta = data.delta;
+    for (const d in delta) core.vortexes[id][d] = delta[d];
+};
+
+const updateMine = (data) => {
+    const id = data.id;
+    if (core.mines[id] === undefined) return;
+
+    const delta = data.delta;
+    for (const d in delta) core.mines[id][d] = delta[d];
+};
+
+const updatePack = (data) => {
+    const id = data.id;
+    if (core.packs[id] === undefined) return;
+
+    const delta = data.delta;
+    for (const d in delta) core.packs[id][d] = delta[d];
+};
+
+const updateBeam = (data) => {
+    const id = data.id;
+    if (core.beams[id] === undefined) return;
+
+    const delta = data.delta;
+    for (const d in delta) core.beams[id][d] = delta[d];
+};
+
+const updateBlast = (data) => {
+    const id = data.id;
+    if (core.blasts[id] === undefined) return;
+
+    const delta = data.delta;
+    for (const d in delta) core.blasts[id][d] = delta[d];
+};
+
+const updateAsteroid = (data) => {
+    const id = data.id;
+    if (core.asteroids[id] === undefined) return;
+
+    const delta = data.delta;
+    for (const d in delta) core.asteroids[id][d] = delta[d];
+};
+
+const updateOrb = (data) => {
+    const id = data.id;
+    if (core.orbs[id] === undefined) return;
+
+    const delta = data.delta;
+    for (const d in delta) core.orbs[id][d] = delta[d];
+};
+
+const updateMissile = (data) => {
+    const id = data.id;
+    if (core.missiles[id] === undefined) return;
+
+    const delta = data.delta;
+    for (const d in delta) core.missiles[id][d] = delta[d];
+};
+
+const updateBase = (data) => {
+    if (core.bases === 0) return;
+
+    const delta = data.delta;
+    for (const d in delta) core.bases[d] = delta[d];
 };
 
 module.exports = {

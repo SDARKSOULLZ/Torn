@@ -20,10 +20,10 @@ const msgpack = require(`socket.io-msgpack-parser`);
 
 const core = require(`../core.js`);
 
-console.log(`Using "${core.globals.apiURL}" as the api URL.`);
-console.log(`Using "${core.globals.gameServerURL}" as the gameserver URL.`);
+console.log(`Using "${core.apiURL}" as the api URL.`);
+console.log(`Using "${core.gameServerURL}" as the gameserver URL.`);
 
-const socket = io(core.globals.gameServerURL, {
+const socket = io(core.gameServerURL, {
     autoConnect: false,
     parser: msgpack
 });
