@@ -97,7 +97,32 @@ socket.on(`update`, (data) => {
     core.game.tick++;
 
     core.game.isLocked = data.isLocked;
-    // core.game.charge = 
+    core.game.charge = data.charge;
+
+    const delta = data.state;
+    if (!delta) return;
+
+    for (const player of delta.players) updatePlayer(player);
+    for (const vortexes of delta.vortexes) updateVortex(vortexes);
+    for (const mine of delta.mines) updateMine(mine);
+    for (const beam of delta.beams) updateBeam(beam);
+    for (const blast of delta.blasts) updateBlast(blast);
+    for (const asteroid of delta.asteroids) updateAsteroid(asteroid);
+    for (const missile of delta.missiles) updateMissile(missile);
+    for (const pack of delta.packs) updatePack(pack);
+    for (const orb of delta.orbs) updateOrb(orb);
+
+    if (delta.base) for (const base of delta.bases) updateBase(base);
+
+    updateBooms();
+    updateNotes();
+
+    updateBullets();
+    updateTrails();
+
+    core.game.empTimer--;
+    core.game.gyroTimer--;
+    core.game.killStreakTimer--;
 });
 
 module.exports = {
