@@ -44,47 +44,60 @@ socket.on(`connect_error`, (err) => {
 
 // Packet handling.
 socket.on(`posUp`, (data) => {
+    core.game.x = data.x,
+    core.game.y = data.y,
+
+    core.game.health = data.health;
+    core.game.isLocked = data.isLocked;
+    core.game.charge = charge;
+
+    core.game.scrx = -utils.cosLow(data.angle) * data.speed;
+    core.game.scry = -utils.sinLow(data.angle) * data.speed;
+
+    core.game.angle = data.angle;
+    core.game.shield = data.shield;
+
+    core.game.disguise = data.disguise;
+    core.game.trail = data.trail;
+
     if (core.game.docked) audio.playAudio(`sector`, 1);
-    core.game = {
-        x: data.x,
-        y: data.y,
+    core.game.docked = false;
 
-        health: data.health,
-        isLocked: data.isLocked,
-        charge: data.charge,
+    core.game.empTimer--;
+    core.game.gyroTimer--;
+    core.game.killStreakTimer--;
 
-        scrx: -utils.cosLow(data.angle) * data.speed,
-        scry: -utils.sinLow(data.angle) * data.speed,
+    core.game.packs = data.packs;
+    core.game.players = data.players;
 
-        angle: data.angle,
-        shield: data.shield,
+    core.game.bases = data.bases;
+    core.game.asteroids = data.asteroids;
 
-        disguise: data.disguise,
-        trail: data.trail,
+    core.game.beams = data.beams;
+    core.game.blasts = data.blasts;
 
-        docked: false,
+    core.game.missiles = data.missiles;
+    core.game.orbs = data.orbs;
 
-        empTimer: core.game.empTimer - 1,
-        gyroTimer: core.game.gyroTimer - 1,
-        killStreakTimer: core.killStreakTimer - 1,
+    core.game.mines = data.mines;
+    core.game.vortexes = data.vortexes;
 
-        info: {
-            packs: data.packs,
-            players: data.players,
+    if (core.game.sx !== data.game.sx || core.game.sy !== data.game.sy) {
+        core.game.sx = data.sx;
+        core.game.sy = data.sy;
 
-            bases: data.bases,
-            asteroids: data.asteroids,
+        audio.playAudio(`sector`, 1);
+        // r3DMap();
+    }
+    // clearBullets();
+});
 
-            beams: data.beams,
-            blasts: data.blasts,
+socket.on(`update`, (data) => {
+    core.game.uframes++;
+    core.game.tick++;
 
-            missiles: data.missiles,
-            orbs: data.orbs,
-
-            mines: data.mines,
-            vortexes: data.vortexes
-        }
-    };
+    core.game.isLocked = data.isLocked;
+    // core.game.charge = 
 });
 
 module.exports = {
