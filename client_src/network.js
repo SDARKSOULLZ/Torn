@@ -41,7 +41,6 @@ socket.on(`connect_error`, (err) => {
 
 // Packet handling.
 socket.on(`posUp`, (data) => {
-
 });
 
 module.exports = {
