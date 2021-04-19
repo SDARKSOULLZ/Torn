@@ -31,6 +31,19 @@ const sendAPI = async (endpoint, data) => await fetch(core.API_URL + endpoint, {
     headers: { 'Content-Type': `x-www-form-urlencoded` }
 });
 
+socket.on(`connect_error`, (err) => {
+    if (core.loggedIn) alert(`Failed to connect to the Torn servers. This probably either means they are down or your firewall is blocking the request.`);
+    else alert(`There's been an issue and your connection to Torn has been interrupted. You should be able to reload and get back right into the game`);
+
+    console.error(`Socket connection terminated unexpectedly: ${err}`);
+    return socket.close();
+});
+
+// Packet handling.
+socket.on(`posUp`, (data) => {
+
+});
+
 module.exports = {
     connect,
     sendAPI
