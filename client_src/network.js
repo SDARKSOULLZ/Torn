@@ -205,6 +205,27 @@ socket.on(`base_delete`, () => {
     core.bases = null;
 });
 
+socket.on(`newBullet`, (data) => {
+    core.bullets[data.id] = data;
+    core.bullets[data.id].tick = 0;
+});
+
+socket.on(`delBullet`, (data) => {
+    delete core.bullets[data.id];
+});
+
+socket.on(`invalidCredentials`, () => {
+    core.credentialState = 1;
+});
+
+socket.on(`outdated`, () => {
+    core.credentialState = 20;
+});
+
+socket.on(`badcookie`, () => {
+    core.credentialState = 30;
+});
+
 const clearBullets = () => {
     core.bullets = {};
 };
