@@ -17,6 +17,10 @@ class Chat extends React.Component<{}, { messages: any[] }> {
         this.setState({ messages: this.state.messages.filter(message => message.id !== id) });
     }
 
+    chat = (data: any) => {
+        this.setState({ messages: this.state.messages.concat(data) });
+    }
+
     render = () => (Element) => {
         return (
             <div className="chat">
