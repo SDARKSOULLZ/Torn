@@ -31,7 +31,6 @@ let splash = ``;
 
 export const getSplash = () => splash;
 
-
 const load = (lang) => {
     const request = new XMLHttpRequest();
     request.open(`GET`, lang, false);
@@ -45,7 +44,7 @@ const load = (lang) => {
 
     request.send(null);
     return JSON.parse(data);
-}
+};
 
 const loadLang = (name) => {
     let assigned = null;
@@ -103,7 +102,7 @@ const loadLang = (name) => {
 
     splash = jsn.splashes[Math.floor(Math.random() * jsn.splashes.length)];
     if (!splash.endsWith(`!`) && !splash.endsWith(`?`)) splash += `...`;
-}
+};
 
 loadLang(null);
 
@@ -114,4 +113,4 @@ export const translate = (english, arr = undefined) => { // arr = undefined???
     if (arr !== undefined) while (arr.length > 0) translated = translated.replace(`#`, arr.shift());
 
     return translated;
-}
+};

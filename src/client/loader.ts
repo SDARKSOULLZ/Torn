@@ -118,4 +118,4 @@ const loadAllAudio = () => {
 export {
     loadAllImages,
     loadAllAudio
-}
+};

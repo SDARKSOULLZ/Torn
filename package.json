@@ -8,7 +8,7 @@
     "dev": "webpack --progress --hot --config ./deploy/webpack.dev.js",
     "build": "webpack --progress --config ./deploy/webpack.prod.js",
     "test-build": "webpack --progress --config ./deploy/webpack.test.js",
-    "dev:lint": "eslint . --fix",
+    "dev:lint": "eslint . --fix --ext .ts",
     "lint-staged": "lint-staged"
   },
   "repository": {
@@ -40,6 +40,8 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@types/socket.io": "^2.1.13",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
     "babel-loader": "^8.2.2",
     "eslint": "^7.24.0",
     "eslint-config-standard": "^16.0.2",
