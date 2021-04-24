@@ -33,13 +33,23 @@ class ChatInput extends React.Component<{}, { value: string, activated: boolean 
         });
     }
     
-    keypress = (event) => {
+    keypress = (event: KeyboardEvent) => {
         if (event.key === `Enter`) {
             this.unfocusChat();
 
             const val = this.state.value;
 
-            socket.emit(`chat`, { })
+            socket.emit(`chat`, { msg: val });
+            this.setState({ value: `` });
+
+            // whatever this does
+            // setTimeout(global.stopTyping, 50);
         }
     }
+
+    change = (event) => {
+        this.setState({ value: event.target.value });
+    }
 }
+
+export default ChatInput;
