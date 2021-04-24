@@ -1,8 +1,5 @@
-# Temporarily ignore serverside.
-server_src/
-
-# Client assets.
-client/
+# Compiled client script.
+client.js
 
 # Typescript files.
 *.ts

@@ -39,8 +39,10 @@ global.ipMuteTable = {};
 global.protocolVersion = undefined;
 
 const runCommand = (player, msg) => {
-    const args = msg.slice(config.prefix.length).trim().split(` `);
-    const command = args.shift().toLowerCase();
+    const args = msg.slice(1).trim().split(` `);
+    const cmd = args.shift().toLowerCase();
+
+    const command = cmds[cmd];
 
     if (!command) player.socket.emit(`chat`, { msg: `~\`red~\`Unknown Command. Use /help for a list of commands! ~\`red~\`` });
     else {
@@ -241,7 +243,6 @@ module.exports = initNetcode = () => {
                 socket.emit(`invalidReg`, { reason: 4 });
                 return;
             }
-            player._id = user;
             player.name = user;
 
             player.permissionLevels = [0];
@@ -278,12 +279,11 @@ module.exports = initNetcode = () => {
 
             const name = await response.text();
             player = new PlayerMP(socket);
-            player._id = name;
 
             let wait_time = 0;
             for (const p in sockets) {
                 const curr_socket = sockets[p];
-                if (curr_socket.player !== undefined && curr_socket.player._id == name && curr_socket != socket) {
+                if (curr_socket.player !== undefined && curr_socket.player.name == name && curr_socket != socket) {
                     curr_socket.player.kickMsg = `A user has logged into this account from another location.`;
                     curr_socket.player.socket.disconnect();
                     wait_time = 6000;
@@ -404,7 +404,7 @@ module.exports = initNetcode = () => {
                 return;
             }
 
-            if (!player.name.includes(`[`)) data.msg = data.msg.replace(/`/ig, ``); // Non-tags can't use colored text
+            if (player.tag === ``) data.msg = data.msg.replace(/`/ig, ``); // Non-tags can't use colored text
 
             const time = Date.now();
 
