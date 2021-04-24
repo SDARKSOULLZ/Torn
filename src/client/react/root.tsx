@@ -17,9 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
 
-import core from '../core';
-import socket from '../utils/socket';
-
 import Chat from './components/chat';
 import MuteButton from './components/muteButton';
 import MusicButton from './components/musicButton';
