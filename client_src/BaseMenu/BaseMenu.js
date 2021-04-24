@@ -55,7 +55,6 @@ global.rBaseGui = function () {
     baseMenuCtx.lineWidth = 2;
     baseMenuCtx.textAlign = `right`;
     baseMenuCtx.fillStyle = `yellow`;
-    rTexts(-1);
 
     baseMenuCtx.font = `14px ShareTech`;
     baseMenuCtx.lineWidth = 2;
@@ -67,20 +66,19 @@ global.rBaseGui = function () {
     tabs[3] = translate(`Achievements`);
     tabs[4] = translate(`More`);
 
-    baseMenuCtx.globalAlpha = 0.5;
-    infoBox(baseMenuCtx, 0, 44, 768, 512 - 44, `black`, `white`);
+    baseMenuCtx.globalAlpha = guiOpacity;
+    baseMenuCtx.fillStyle = guiColor;
+    roundRect(baseMenuCtx, 0, 44, 768, 512 - 44, 32, true, false);
 
     baseMenuCtx.textAlign = `center`;
-    for (let i = 0; i < 5; i++) // Fill Tabs In
-    {
-        infoBox(baseMenuCtx, i * 768 / 5 + 8, 4, 768 / 5 - 8, 32, (tab == i) ? `darkgray` : `black`, `white`);
+    for (let i = 0; i < 5; i++) { // Fill Tabs In
+        roundRect(baseMenuCtx, i * 768 / 5 + 8, 4, 768 / 5 - 8, 32, 16, true, false);
     }
 
     baseMenuCtx.globalAlpha = 1;
 
     baseMenuCtx.fillStyle = `white`;
-    for (let i = 0; i < 5; i++) // Write tab names
-    {
+    for (let i = 0; i < 5; i++) { // Write tab names
         write(baseMenuCtx, tabs[i], (i * 768 / 5 + 768 / 10), 23);
     }
 
@@ -134,7 +132,7 @@ global.rInBase = function () {
     }
     if (tab == -1) rCreds();
     if (quest != 0) rCurrQuest();
-    if (lb != 0) rLB();
+    if (lb != 0) pasteLeaderboard();
     rRaid();
     updateBullets();
     rTut();

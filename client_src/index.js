@@ -19,130 +19,160 @@ import ReactDOM from "react-dom";
 import ReactRootJS from "./react.js";
 
 import { jsn, translate } from "./localizer.ts";
-import { LoaderOptionsPlugin } from "webpack";
 
-const printStartup = require(`./utils/printStartup.js`);
-const core = require(`./core.js`);
+`use strict`;
+
+function printStartup () {
+    console.log(`******************************************************************************************************`);
+    console.log(` ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄      ▄     ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄ `);
+    console.log(`▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░▌    ▐░▌   ▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌`);
+    console.log(` ▀▀▀█░█▀▀▀ ▐░█▀▀▀▀▀█░▌▐░█▀▀▀▀▀█░▌▐░▌░▌   ▐░▌   ▐░█▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀█░▌▐░█▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀ `);
+    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░▌     ▐░▌▐░▌▐░▌  ▐░▌   ▐░▌        ▐░▌     ▐░▌▐░▌     ▐░▌▐░▌        ▐░▌        `);
+    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░█▄▄▄▄▄█░▌▐░▌ ▐░▌ ▐░▌   ▐░█▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄█░▌▐░█▄▄▄▄▄█░▌▐░▌        ▐░█▄▄▄▄▄▄▄ `);
+    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░░░░░░░░░▌▐░▌  ▐░▌▐░▌   ▐░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░▌▐░▌        ▐░░░░░░░░░▌`);
+    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░█▀▀█░█▀▀ ▐░▌   ▐░▐░▌    ▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀█░▌▐░▌        ▐░█▀▀▀▀▀▀▀ `);
+    console.log(`    ▐░▌    ▐░▌     ▐░▌▐░▌   ▐░▌  ▐░▌    ▐░░▌           ▐░▌▐░▌        ▐░▌     ▐░▌▐░▌        ▐░▌        `);
+    console.log(`    ▐░▌    ▐░█▄▄▄▄▄█░▌▐░▌    ▐░▌ ▐░▌     ▐░▌ ▄  ▄▄▄▄▄▄▄█░▌▐░▌        ▐░▌     ▐░▌▐░█▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄ `);
+    console.log(`    ▐░▌    ▐░░░░░░░░░▌▐░▌     ▐░▌▐░▌     ▐░▌▐░▌▐░░░░░░░░░▌▐░▌        ▐░▌     ▐░▌▐░░░░░░░░░▌▐░░░░░░░░░▌`);
+    console.log(`     ▀      ▀▀▀▀▀▀▀▀▀  ▀       ▀  ▀       ▀  ▀  ▀▀▀▀▀▀▀▀▀  ▀          ▀       ▀  ▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀ `);
+    console.log(`                                                                                                      `);
+    console.log(`******************************************************************************************************`);
+
+    console.log(`This software is free software, licensed under the terms of the AGPL v3. For more information, please see LICENSE.txt`);
+    console.log(`Source available at: https://github.com/TornDotSpace/Torn`);
+
+    console.log(`torn-client-git-${BRANCH}-${COMMITHASH}`);
+    console.log(`Implementing protocol version ${VERSION}`);
+
+    // Print client modification warning
+    console.error(`***********************************************************************`);
+    console.error(`WARNING: PASTING CODE INTO HERE CAN ALLOW FOR YOUR ACCOUNT TO BE STOLEN`);
+    console.error(`ALWAYS AUDIT CODE YOU ARE INJECTING INTO THE DEVELOPER CONSOLE`);
+    console.error(`ADDITIONALLY, PLEASE RESPECT OUR TOS https://torn.space/legal/tos.pdf AND NOTE OUR PRIVACY POLICY https://torn.space/legal/privacy_policy.pdf`);
+    console.error(`***********************************************************************`);
+}
 
 printStartup();
 
-core.loginInProgress = false;
+global.loginInProgress = false;
 
 window.document.title = `torn.space`;
 
-core.isChrome = true || !(!window.chrome) && !(!window.chrome.webstore);// broken
+global.isChrome = true || !(!window.chrome) && !(!window.chrome.webstore);// broken
 
-core.canvas = document.getElementById(`ctx`);
+global.canvas = document.getElementById(`ctx`);
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-core.ctx = canvas.getContext(`2d`, { alpha: false });
-core.ReactRoot = ReactRootJS;
+global.ctx = canvas.getContext(`2d`, { alpha: false });
+global.ReactRoot = ReactRootJS;
+const { Howl, Howler } = require(`howler`); // audio
 
-core.teamColors = [`red`, `blue`, `green`];
-core.sectorWidth = 14336;
-core.mx = 0; core.my = 0; core.mb = 0;
-core.tick = 0;
-core.scrx = 0; core.scry = 0;
-core.mapSz = -1;
-core.quests = 0; core.quest = 0;
-core.login = false; core.lore = false;
-core.px = 0; core.py = 0; core.pc = 0; core.pangle = 0; core.isLocked = false; core.pvx = 0; core.pvy = 0;
-core.phealth = 0;
-core.mapZoom = 1;
-core.myxx1 = 0; core.myxx2 = 0; core.myxx3 = 0; core.myxx4 = 0;
-core.myyy1 = 0; core.myyy2 = 0; core.myyy3 = 0; core.myyy4 = 0;
-core.pscx = 0; core.pscy = 0; core.psga = 0;
-core.bxo = 0; core.byo = 0; core.bx = 0; core.by = 0;
-core.iron = 0; core.silver = 0; core.platinum = 0; core.copper = 0;
-core.kills = 0; core.baseKills = 0; core.money = 0; core.experience = 0; core.rank = 0;
-core.sx = 0; core.sy = 0;
-core.docked = false; core.actuallyBuying = true;
-core.tab = 0; core.confirmer = -1; core.shipView = 0; core.volTransparency = 0; core.gVol = 0.5;
-core.typing = false;
-core.stopTyping = () => {
+global.guiColor = `#333333`;
+global.guiOpacity = 0.5;
+global.teamColors = [`red`, `blue`, `green`];
+global.sectorWidth = 14336;
+global.mx = 0; global.my = 0; global.mb = 0;
+global.tick = 0;
+global.scrx = 0; global.scry = 0;
+global.mapSz = -1;
+global.quests = 0; global.quest = 0;
+global.login = false; global.lore = false;
+global.px = 0; global.py = 0; global.pc = 0; global.pangle = 0; global.isLocked = false; global.pvx = 0; global.pvy = 0;
+global.phealth = 0;
+global.mapZoom = 1;
+global.myxx1 = 0; global.myxx2 = 0; global.myxx3 = 0; global.myxx4 = 0;
+global.myyy1 = 0; global.myyy2 = 0; global.myyy3 = 0; global.myyy4 = 0;
+global.pscx = 0; global.pscy = 0; global.psga = 0;
+global.bxo = 0; global.byo = 0; global.bx = 0; global.by = 0;
+global.iron = 0; global.silver = 0; global.platinum = 0; global.copper = 0;
+global.kills = 0; global.baseKills = 0; global.money = 0; global.experience = 0; global.rank = 0;
+global.sx = 0; global.sy = 0;
+global.docked = false; global.actuallyBuying = true;
+global.tab = 0; global.confirmer = -1; global.shipView = 0; global.volTransparency = 0; global.gVol = 0.5;
+global.typing = false;
+global.stopTyping = () => {
     typing = false;
 };
-core.centered = false;
-core.afk = false;
+global.centered = false;
+global.afk = false;
 
-core.baseMap2D = {};
-core.planetMap2D = {};
-core.myGuild = {};
+global.baseMap2D = {};
+global.planetMap2D = {};
+global.myGuild = {};
 
-core.homepageTimer = 0; core.loreTimer = 0;
-core.raidTimer = -1; core.raidRed = 0; core.raidBlue = 0; core.raidGreen = 0; core.points = 0;
-core.shield = false; core.autopilot = false;
-core.seller = 0; core.worth = 0; core.ship = 0;
-core.empTimer = -1; core.dmgTimer = -1; core.gyroTimer = 0;
-core.t2 = 1; core.mh2 = 1; core.c2 = 1; core.va2 = 1; core.e2 = 1; core.ag2 = 1;
-core.dead = false; core.lives = 50; core.sLag = 0; core.nLag = 0; core.clientLag = -40; core.fps = 0; core.ops = 0; core.frames = 0; core.uframes = 0; core.ups = 0; core.dev = false;
-core.credentialState = 0;
-core.savedNote = 0;
-core.myName = `GUEST`; core.currAlert = ``; core.bigAlert = ``; core.disguise = 0;
-core.soundAllowed = false;
-core.currLoading = ``;
-core.secret2PlanetName = ``;
-core.meanNLag = 0; core.nLagCt = 0;
+global.homepageTimer = 0; global.loreTimer = 0;
+global.raidTimer = -1; global.raidRed = 0; global.raidBlue = 0; global.raidGreen = 0; global.points = 0;
+global.shield = false; global.autopilot = false;
+global.seller = 0; global.worth = 0; global.ship = 0;
+global.empTimer = -1; global.dmgTimer = -1; global.gyroTimer = 0;
+global.t2 = 1; global.mh2 = 1; global.c2 = 1; global.va2 = 1; global.e2 = 1; global.ag2 = 1;
+global.dead = false; global.lives = 50; global.sLag = 0; global.nLag = 0; global.clientLag = -40; global.fps = 0; global.ops = 0; global.frames = 0; global.uframes = 0; global.ups = 0; global.dev = false;
+global.credentialState = 0;
+global.savedNote = 0;
+global.myName = `GUEST`; global.currAlert = ``; global.bigAlert = ``; global.disguise = 0;
+global.soundAllowed = false;
+global.currLoading = ``;
+global.secret2PlanetName = ``;
+global.meanNLag = 0; global.nLagCt = 0;
 
-core.booms = {};
-core.boomParticles = {};
-core.trails = {};
-core.myTrail = 0;
-core.notes = {};
-core.bullets = {};
-core.planets = 0; core.hmap = 0; core.lb = 0; core.youi = 0;
-core.keys = []; core.lagArr = 0;
+global.booms = {};
+global.boomParticles = {};
+global.trails = {};
+global.myTrail = 0;
+global.notes = {};
+global.bullets = {};
+global.planets = 0; global.hmap = 0; global.lb = 0; global.youi = 0;
+global.keys = []; global.lagArr = 0;
 
-core.w = window.innerWidth;
-core.h = window.innerHeight; // Canvas width and height
+global.w = window.innerWidth;
+global.h = window.innerHeight; // Canvas width and height
 
-core.basesInfo = undefined;
-core.playersInfo = { };
-core.minesInfo = { };
-core.orbsInfo = { };
-core.missilesInfo = { };
-core.vortsInfo = { };
-core.beamsInfo = { };
-core.blastsInfo = { };
-core.astsInfo = { };
-core.packsInfo = { };
+global.basesInfo = undefined;
+global.playersInfo = { };
+global.minesInfo = { };
+global.orbsInfo = { };
+global.missilesInfo = { };
+global.vortsInfo = { };
+global.beamsInfo = { };
+global.blastsInfo = { };
+global.astsInfo = { };
+global.packsInfo = { };
 
-core.clientmutes = { };
+global.clientmutes = { };
 // for initial loading screen
-core.EVERYTHING_LOADED = false;
+global.EVERYTHING_LOADED = false;
 
-core.guest = false;
+global.guest = false;
 
-core.stars = [];
+global.stars = [];
 for (let i = 0; i < 30; i++) stars[i] = { x: Math.random() * w, y: Math.random() * h };
 
-core.myId = undefined;
+global.myId = undefined;
 
-core.killStreak = 0; core.killStreakTimer = -1;
-core.badWeapon = 0;
-core.mouseDown = false;
-core.flash = 0;
-core.hyperdriveTimer = 0;
-core.didW = false; core.didSteer = false; core.currTut = 0;
+global.killStreak = 0; global.killStreakTimer = -1;
+global.badWeapon = 0;
+global.mouseDown = false;
+global.flash = 0;
+global.hyperdriveTimer = 0;
+global.didW = false; global.didSteer = false; global.currTut = 0;
 
-core.sectorPoints = 0;
+global.sectorPoints = 0;
 
 require(`./audio.js`);
-
-const imageLoader = require(`./utils/image.js`);
-
+const loadAllImages = require(`./image.js`);
 require(`./localizer.ts`);
 require(`./helper.js`);
-require(`./_network.js`);
+require(`./network.js`);
 require(`./graphics/render.js`);
 require(`./graphics/ArrowGraphics.js`);
 require(`./graphics/minimap.js`);
+require(`./graphics/leaderboard.js`);
 require(`./BaseMenu/BaseMenu.js`);
 require(`./input.js`);
 require(`./chat.ts`);
 
-core.wepns = jsn.weapons;
-core.ships = jsn.ships;
+global.wepns = jsn.weapons;
+global.ships = jsn.ships;
 
 ReactRoot.socket = socket; // Just to make socket accessible in react.js
 
@@ -159,10 +189,10 @@ ReactDOM.render(
 ReactRoot.turnOnDisplay(`LoginOverlay`);
 
 // Used in the ship store to make the bar graphs
-core.maxShipThrust = -1000;
-core.maxShipHealth = -1000;
-core.maxShipCapacity = -1000;
-core.maxShipAgility = -1000;
+global.maxShipThrust = -1000;
+global.maxShipHealth = -1000;
+global.maxShipCapacity = -1000;
+global.maxShipAgility = -1000;
 for (const i in ships) {
     const ship = ships[i];
     if (ship.thrust > maxShipThrust) maxShipThrust = ship.thrust;
@@ -175,12 +205,12 @@ for (const j in wepns) {
     if (!wepns[j].enabled) { delete wepns[j]; }
 }
 const weaponTypeOrder = { Gun: 0, Mine: 1, Missile: 2, Beam: 3, Orb: 4, Blast: 5, Misc: 6 };
-core.o = 0;
+global.o = 0;
 for (const j in wepns) {
     wepns[j].order = o;
     o++;
 }
-core.wepnCount = Object.keys(wepns).length;
+global.wepnCount = Object.keys(wepns).length;
 for (let j = 0; j < wepnCount - 1; j++) { // this nifty loop sorts weapons by ship
     const woj = weaponWithOrder(j);
     const woj1 = weaponWithOrder(j + 1);
@@ -197,29 +227,22 @@ wepns[-2] = { name: `` };
 wepns[-1] = { name: translate(`Empty`) };
 wepnCount += 2;
 
-core.scroll = 0; core.weaponTimer = 0; core.charge = 0;
-core.equipped = 0; core.ammos = {};
-core.musicAudio = 0;
+global.scroll = 0; global.weaponTimer = 0; global.charge = 0;
+global.equipped = 0; global.ammos = {};
+global.musicAudio = 0;
 
-core.redShips = [];
-core.blueShips = [];
-core.greenShips = [];
-core.planetImgs = [];
-core.Img = {};
-core.Img_prgs = [0 /* Count of loaded images */, 0];
+global.redShips = [];
+global.blueShips = [];
+global.greenShips = [];
+global.planetImgs = [];
+global.Img = {};
+global.Img_prgs = [0 /* Count of loaded images */, 0];
 
-// Load images from loader.
-loader.loadAllImages();
-
-for (let i = 1; i < 6; i++) {
-    planetImgs[i] = new Image();
-    planetImgs[i].src = `/img/space/planets/pt${i}.jpg`;
-}
-
+loadAllImages();
 loadAllAudio();
 
-core.achs = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
-core.bigNotes = [-1, -1, -1, -1];
+global.achs = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+global.bigNotes = [-1, -1, -1, -1];
 
 function forceRefresh () {
     window.location.reload(true);

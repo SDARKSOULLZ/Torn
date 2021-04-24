@@ -33,13 +33,14 @@ global.render = function () {
         return;
     }
     if (docked) {
+        frames++;
         autopilot = false;
         updateNotes();
         rInBase();
     }
     if (docked || (playersInfo == 0 && !(disguise > 0))) return;
     if (ops > 0 || clientLag >= 35) {
-        rTexts(clientLag);
+        rLagStats(clientLag, 0);
         clientLag = 34;
         setTimeout(render, 5);
         return;
@@ -114,7 +115,7 @@ global.render = function () {
 
     let time8 = -performance.now();
     time7 -= time8;
-    paste3DMap(8, 8);// Performance unknown
+    paste3DMap(8, 8);// Probably fast cause of subcanvasing
 
     let time9 = -performance.now();
     time8 -= time9;
@@ -123,7 +124,7 @@ global.render = function () {
 
     let timeA = -performance.now();
     time9 -= timeA;
-    if (lb != 0) rLB();
+    pasteLeaderboard();
     rExpBar();// Maybe a little slow
     // Everything past here is fast
     rVolumeBar();
@@ -142,7 +143,7 @@ global.render = function () {
     timeA += performance.now();
     const arr = [time0, time1, time2, time3, time4, time5, time6, time7, time8, time9, timeA];
     lagMath(arr);
-    rTexts(clientLag);
+    rLagStats(clientLag, arr);
     ops--;
 };
 
@@ -581,54 +582,51 @@ global.drawStar = function (ox, oy, spikes, outerRadius, innerRadius) {
     ctx.closePath();
     ctx.fill();
 };
-global.rTexts = function (lag, arr) {
+global.rLagStats = function (lag, arr) {
     ctx.font = `14px ShareTech`;
     ctx.textAlign = `right`;
     ctx.fillStyle = `yellow`;
-    const lagNames = [`Background`, `Stars`, `Planets/Bases`, `Asteroids/packages`, `Players/trails`, `Weapons`, `Gui`, `Chat`, `Map`, `Radar`, `Gui2`];
-    const info = {};
+
+    let lagWarn = {};
     const lbShift = guest ? 8 : 266;
+
+    lagWarn[0] = lagWarn[1] = ``;
+    if (lag > 50) {
+        lagWarn[0] = translate(`You appear to be lagging due to an old system or browser.`);
+        lagWarn[1] = translate(`We recommend playing on a newer system if available.`);
+    } else if (nLag > 100) {
+        lagWarn[0] = translate(`You appear to be lagging due to a slow connection.`);
+        lagWarn[1] = ``;
+    } else if (sLag > 50) {
+        lagWarn[0] = translate(`Our servers are lagging due to heavy traffic at the moment.`);
+        lagWarn[1] = translate(`We apologize for the inconvenience.`);
+    }
+
+    for (let i = 0; i < 2; i++) {
+        write(ctx, lagWarn[i], w - lbShift, 16 + i * 16);
+    }
+
+    if (!dev || arr === 0) {
+        ctx.textAlign = `left`;
+        return;
+    }
+
+    const lagNames = [`Background`, `Stars`, `Planets/Bases`, `Asteroids/packages`, `Players/trails`, `Weapons`, `Gui`, `Chat`, `Map`, `Radar`, `Gui2`];
+    let info = {};
     meanNLag *= nLagCt;
     meanNLag += nLag;
     nLagCt++;
     meanNLag /= (nLagCt + 0.0);
-
-    info[0] = translate(`Experience: #`, [numToLS(Math.round(experience))]);
-    info[1] = translate(`Money: #`, [numToLS(Math.floor(money))]);
-    info[2] = translate(`Kills: #`, [numToLS(kills)]);
-    info[3] = translate(`Rank: #`, [rank]);
-    info[4] = translate(`Sector: #`, [getSectorName(sx, sy)]);
-
-    info[5] = ``;
-    info[6] = ``;
-    info[7] = ``;
-
-    if (dev) {
     // We won't translate these things, really no point.
-        info[8] = `Client Lag: ${Number((lag / 40.0).toPrecision(3))} ticks`;
-        info[9] = `Server Lag: ${Number((sLag / 40.0).toPrecision(3))} ticks`;
-        info[10] = `2-Way Latency: ${nLag} ms ` + `(Mean: ${Number(meanNLag).toPrecision(3)} ms` + `)`;
-        info[11] = `FPS: ${fps}`;
-        info[12] = `UPS: ${ups}`;
-        if (lag > 50) {
-            info[5] = translate(`You appear to be lagging due to an old system or browser.`);
-            info[6] = translate(`We recommend playing on a newer system if available.`);
-            info[7] = ``;
-        } else if (nLag > 100) {
-            info[5] = translate(`You appear to be lagging due to a slow connection.`);
-            info[6] = ``;
-            info[7] = ``;
-        } else if (sLag > 50) {
-            info[5] = translate(`Our servers are lagging due to heavy traffic at the moment.`);
-            info[6] = translate(`We apologize for the inconvenience.`);
-            info[7] = ``;
-        }
-    }
+    info[2] = `Client Lag: ${Number((lag / 40.0).toPrecision(3))} ticks`;
+    info[3] = `Server Lag: ${Number((sLag / 40.0).toPrecision(3))} ticks`;
+    info[4] = `2-Way Latency: ${nLag} ms ` + `(Mean: ${Number(meanNLag).toPrecision(3)} ms` + `)`;
+    info[5] = `FPS: ${fps}`;
+    info[6] = `UPS: ${ups}`;
 
-    const il = 13;
-
-    for (let i = 0; i < ((dev && lag != -1) ? il + lagArr.length : 8); i++) {
-        write(ctx, i < il ? info[i] : (lagNames[i - il] + translate(`Gui2`) + parseFloat(Math.round(lagArr[i - il] * 100) / 100).toFixed(2)), w - lbShift, 16 + i * 16);
+    const il = 7; // 1 + max index of info
+    for (let i = 2; i < il + lagNames.length; i++) {
+        write(ctx, i < il ? info[i] : (`${lagNames[i - il]}: ${parseFloat(Math.round(arr[i - il] * 100) / 100).toFixed(2)}`), w - lbShift, 16 + i * 16);
     }
     ctx.textAlign = `left`;
 };
@@ -649,48 +647,8 @@ global.renderBG = function (more) {
 
     ctx.globalAlpha = 1;
 };
-global.rLB = function () {
-    if (guest) return;
-    ctx.save();
-    ctx.globalAlpha = 0.5;
-    infoBox(ctx, w - 260, -2, 262, (lb.length + 4) * 16 + 2, `black`, `white`);
-    ctx.fillStyle = pc;
-    roundRect(ctx, w - 221, Math.min(youi, 16) * 16 + 52, myName.length * 8 + 7, 16, 7, true, false);
-    ctx.restore();
-
-    ctx.fillStyle = `yellow`;
-    ctx.font = `24px ShareTech`;
-    ctx.textAlign = `center`;
-    write(ctx, translate(`Leaderboard`), w - 128, 28);
-    ctx.font = `14px ShareTech`;
-    ctx.fillStyle = `yellow`;
-    write(ctx, translate(`Name`), w - 208, 48);
-    ctx.textAlign = `right`;
-    write(ctx, translate(`Exp`), w - 48 - 16, 48);
-    write(ctx, translate(`Rank`), w - 16, 48);
-    for (let i = 0; i < lb.length; i++) {
-        const place = 1 + ((i != 20) ? i : parseInt(lb[i].id));
-        ctx.textAlign = `left`;
-        ctx.fillStyle = brighten(lb[i].color);
-        if (lb[i].name.includes(` `)) {
-            ctx.font = `10px ShareTech`;
-            write(ctx, lb[i].name.charAt(1), w - 224, (i + 4) * 16);
-            ctx.font = `14px ShareTech`;
-            const d = new Date();
-            const t = d.getTime() / (35 * 16);
-            if (lb[i].name.includes(`V`) || lb[i].name.includes(`B`)) {
-                ctx.fillStyle = `rgba(${Math.floor(16 * Math.sqrt(Math.sin(t) * 128 + 128))}, ${Math.floor(16 * Math.sqrt(Math.sin(t + Math.PI * 2 / 3) * 128 + 128))}, ${Math.floor(16 * Math.sqrt(Math.sin(t + Math.PI * 4 / 3) * 128 + 128))}, 1)`;
-            }
-            write(ctx, lb[i].name.substring(4), w - 216, (i + 4) * 16);
-        } else write(ctx, lb[i].name, w - 216, (i + 4) * 16);
-        ctx.fillStyle = `yellow`;
-        write(ctx, place + translate(`.`), w - 248, (i + 4) * 16);
-        ctx.textAlign = `right`;
-        write(ctx, abbrevInt(lb[i].exp), w - 48 - 16, (i + 4) * 16);
-        write(ctx, lb[i].rank, w - 16, (i + 4) * 16);
-    }
-};
 global.rCargo = function () {
+    if (guest) return;
     if (quest.type === `Mining`) {
         ctx.fillStyle = `#d44`;
         let metalWeHave = iron;
@@ -703,16 +661,15 @@ global.rCargo = function () {
         }
         write(ctx, `${metalWeHave}/${quest.amt} ${quest.metal}`, 248, 16);
     }
+
+    ctx.globalAlpha = guiOpacity;
     if (seller == 900) {
+        ctx.globalAlpha = guiOpacity * 2;
+        if (ctx.globalAlpha > 1)
+            ctx.globalAlpha = 1;
         ctx.fillStyle = `white`;
         write(ctx, `JETTISON CARGO`, 248, 32);
     }
-
-    ctx.globalAlpha = 0.4;
-
-    ctx.strokeStyle = `white`;
-    ctx.lineWidth = seller == 900 ? 2 : 1;
-    ctx.strokeRect(224, 8, 16, 208);
 
     let myCapacity = ships[ship].capacity * c2;
     if (ship == 17) myCapacity = iron + platinum + silver + copper; // because it has infinite cargo
@@ -738,7 +695,7 @@ global.rCargo = function () {
     ctx.fillStyle = `#d44`;
     ctx.fillRect(224, runningY, 16, ironBarHeight);
 
-    ctx.fillStyle = `black`;
+    ctx.fillStyle = guiColor;
     ctx.fillRect(224, 8, 16, runningY - 8);
 
     ctx.globalAlpha = 1;
@@ -1533,8 +1490,7 @@ global.rSelfCloaked = function () {
         currAlert = translate(`Low Health!`);
     }
 
-    if (phealth / pmaxHealth >= 1)// draw hp bar
-    {
+    if (phealth / pmaxHealth >= 1) { // draw hp bar
         return;
     }
     ctx.lineWidth = 4;
