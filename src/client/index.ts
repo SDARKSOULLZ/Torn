@@ -18,4 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import printStartup from './utils/printStartup';
+import core from './core';
+import logSplash from './utils/logSplash';
+
+// Log the loading splash.
+logSplash();
