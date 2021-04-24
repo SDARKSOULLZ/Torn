@@ -35,7 +35,7 @@ window.addEventListener(`resize`, updateViewport);
 ReactDOM.render(
     <ReactRoot data={{
         toggleMusic: !core.muted.music,
-        toggleSfx: !core.muted.sfx
+        toggleSFX: !core.muted.sfx
     }} />,
     document.querySelector(`#a`)
 );
