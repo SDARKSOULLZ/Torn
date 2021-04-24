@@ -20,11 +20,11 @@ import * as React from 'react';
 import core from '../core';
 import socket from '../utils/socket';
 
-import Chat from './chat';
-import MuteButton from './muteButton';
-import MusicButton from './musicButton';
-import LoginOverlay from './loginOverlay';
-import Register from './register';
+import Chat from './components/chat';
+import MuteButton from './components/muteButton';
+import MusicButton from './components/musicButton';
+import LoginOverlay from './components/loginOverlay';
+import Register from './components/register';
 
 class ReactRoot extends React.Component<{ data: { toggleSFX: boolean, toggleMusic: boolean } }, { display: string, register: string }> {
     constructor (props) {
