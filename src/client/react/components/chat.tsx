@@ -13,12 +13,12 @@ class Chat extends React.Component<{}, { messages: any[] }> {
         this.setState({ messages: this.state.messages.map(message => (message.id === id ? {...message, fadeOut: true } : message)) });
     }
 
-    removeMsg = (id: number) => {
-        this.setState({ messages: this.state.messages.filter(message => message.id !== id) });
+    addMsg = (data: any) => {
+        this.setState({ messages: this.state.messages.concat(data) });
     }
 
-    chat = (data: any) => {
-        this.setState({ messages: this.state.messages.concat(data) });
+    removeMsg = (id: number) => {
+        this.setState({ messages: this.state.messages.filter(message => message.id !== id) });
     }
 
     render = () => (Element) => {
