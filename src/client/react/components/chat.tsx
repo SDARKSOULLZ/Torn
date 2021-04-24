@@ -14,7 +14,7 @@ class Chat extends Component<{}, { messages: any[] }> {
     }
 
     removeMsg = (id: number) => {
-        
+        this.setState({ messages: this.state.messages.filter(message => message.id !== id) });
     }
 }
 
