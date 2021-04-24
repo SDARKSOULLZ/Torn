@@ -1,4 +1,5 @@
 import * as React from 'react';
+import socket from '../../utils/socket';
 
 class Register extends React.Component<{ register: boolean }, { user: string, pass: string, display: boolean }> {
     constructor (props) {
@@ -30,6 +31,16 @@ class Register extends React.Component<{ register: boolean }, { user: string, pa
         this.setState({
             user: this.state.user,
             pass: event.target.value
+        });
+    }
+
+    register = () => {
+        const user = this.state.user;
+        const pass = this.state.pass;
+
+        socket.emit(`register`, {
+            user,
+            pass
         });
     }
 
