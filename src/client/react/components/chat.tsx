@@ -24,11 +24,12 @@ class Chat extends React.Component<{}, { messages: any[] }> {
                     this.state.messages.map((message, i) => 
                         <div className={`chat-msg ${message.fadeOut ? `chat-msg-fadeout`: ``}`}
                             key={i}
-                            style={{ color: message.color === `red`
-                                            ? `pink`
-                                            : message.color === `blue`
-                                            ?  `cyan`
-                                            : `white` }}
+                            style={{ color:
+                                message.color === `red`
+                                    ? `pink`
+                                    : message.color === `blue`
+                                        ?  `cyan`
+                                        : `white` }}
                         >{message.msg}</div>)
                 }
             </div>
