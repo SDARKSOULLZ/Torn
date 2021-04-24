@@ -31,12 +31,20 @@ class ReactRoot extends React.Component<{}, { display: string, register: string 
         };
     }
 
-    toggleDisplay = (name: string) => {
-        let current = this.state;
-        let val = current.display;
+    toggleDisplay = (state: string) => {
+        const current = this.state;
+        const val = current.display;
 
-        if (val === name) this.setState({ display: `none` });
-        else this.setState({ display: name });
+        if (val === state) this.turnOffDisplay();
+        else this.turnOnDisplay(state);
+    }
+
+    turnOnDisplay = (state: string) => {
+        this.setState({ display: state });
+    }
+
+    turnOffDisplay = () => {
+        this.setState({ display: `none` });
     }
 }
 
