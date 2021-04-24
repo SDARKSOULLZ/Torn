@@ -1,5 +1,23 @@
 import * as React from 'react';
 
+import ChatInput from './chatInput';
+
+class ChatMessage {
+    msg: string;
+    color: string;
+
+    id: number;
+    fadeOut: boolean;
+
+    constructor (data) {
+        this.msg = data.msg;
+        this.color = data.color;
+
+        this.id = data.id;
+        this.fadeOut = false;
+    }
+}
+
 class Chat extends React.Component<{}, { messages: any[] }> {
     constructor (props) {
         super(props);
@@ -14,7 +32,13 @@ class Chat extends React.Component<{}, { messages: any[] }> {
     }
 
     addMsg = (data: any) => {
-        this.setState({ messages: this.state.messages.concat(data) });
+        data.id = Math.floor(Math.random() * 999);
+        this.setState({ messages: this.state.messages.concat(new ChatMessage(data)) });
+
+        setTimeout(() => {
+            this.fadeOut(data.id);
+            setTimeout(() => this.removeMsg(data.id), 2e3)
+        }, 6e4);
     }
 
     removeMsg = (id: number) => {
@@ -36,6 +60,7 @@ class Chat extends React.Component<{}, { messages: any[] }> {
                                         : `white` }}
                         >{message.msg}</div>)
                 }
+                <ChatInput />
             </div>
         );
     }
