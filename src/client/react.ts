@@ -16,26 +16,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-
-import ReactRoot from './react';
 
 import core from './core';
-
-import logSplash from './utils/logSplash';
-import updateViewport from './utils/updateViewport';
-
-// Log the loading splash.
-logSplash();
-
-// Update viewport on window resize.
-updateViewport();
-window.addEventListener(`resize`, updateViewport);
-
-ReactDOM.render(
-    <ReactRoot data={{
-        toggleMusic: !core.muted.music,
-        toggleSfx: !core.muted.sfx
-    }} />,
-    document.querySelector(`#a`)
-);
+import socket from './utils/socket';
