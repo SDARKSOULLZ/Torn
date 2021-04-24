@@ -23,6 +23,7 @@ declare const TORN_API_URL: string;
 declare const TORN_GAMESERVER_URL: string;
 
 const core = {
+    // Global variables defined by webpack.
     branch: BRANCH,
     commitHash: COMMITHASH,
     version: VERSION,
@@ -30,12 +31,26 @@ const core = {
     apiURL: `${TORN_API_URL}/api`,
     gameServerURL: TORN_GAMESERVER_URL,
 
+    // Audio / image loader storage.
     audio: [],
     images: [],
 
+    // Audio mute handlers.
     muted: {
         music: false,
         sfx: false
+    },
+
+    // Game renderer
+    canvas: document.querySelector(`ctx`),
+
+    // Width of a sector.
+    sectorWidth: 14336,
+
+    // Client-side map hot storage.
+    maps: {
+        base2D: {},
+        planet2D: {}
     }
 };
 
