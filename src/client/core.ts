@@ -47,6 +47,9 @@ const core = {
         progress: true
     },
 
+    // Loader handler.
+    everythingLoaded: false,
+
     // Game renderer
     canvas: document.querySelector(`canvas`),
 
