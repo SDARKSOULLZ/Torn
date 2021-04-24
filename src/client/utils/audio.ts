@@ -31,7 +31,7 @@ const toggleMusic = () => {
     else music.play();
 };
 
-const loadAudio = (name, src) => {
+const loadAudio = (name: string, src: string) => {
     if (core.audio.find(audio => audio.name === name)) return console.error(`Audio "${name}" already loaded!`);
 
     const aud = new Howl({
