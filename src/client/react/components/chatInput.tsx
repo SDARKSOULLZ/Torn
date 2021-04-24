@@ -50,6 +50,23 @@ class ChatInput extends React.Component<{}, { value: string, activated: boolean 
     change = (event) => {
         this.setState({ value: event.target.value });
     }
+
+    render = () => {
+        return this.state.activated
+            ? (
+                <input
+                    className="chat-input"
+                    ref={this.chatRef}
+                    maxLength={128}
+                    onKeyDown={this.keypress.bind(this)}
+                    onChange={this.change.bind(this)}
+                    value={this.state.value}
+                    placeholder="Press enter to chat!"
+                    type="text"
+                />
+            )
+            : null;
+    }
 }
 
 export default ChatInput;
