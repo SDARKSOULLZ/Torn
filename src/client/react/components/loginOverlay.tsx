@@ -105,8 +105,10 @@ class LoginOverlay extends React.Component<{ display: boolean }, { user: string,
                     <div className="overlay-menu">
                         <div className="container">
                             <div className="guests">
+                                {/* <center> */}
                                 <h3>New Players</h3>
                                     {buttonOrder}
+                                {/* </center> */}
                             </div>
                             <div className="video">
                                 {/*
@@ -114,13 +116,19 @@ class LoginOverlay extends React.Component<{ display: boolean }, { user: string,
                                 {video}
                                 <br /><a href="youtubers/">Have a channel?</a></center>
                             */}
-                                    <img src="img/harrlogo.png" alt="Logo" width="340"/>
+
+                            {/* <center> */}
+                            <img src="img/harrlogo.png" alt="Logo" width="340"/>
+                            {/* </center> */}
+
                             </div>
                             <div className="login">
+                                {/* <center> */}
                                 <h3>Returning Players</h3>
                                     <input className="overlay-input" type="text" id="usernameid" onChange={this.changeUsername} placeholder="Username" />
                                     <input className="overlay-input" type="password" id="passid" onChange={this.changePassword} placeholder="Password" />
                                     <button className="overlay-button" id="loginButton" onClick={this.login}>Login</button>
+                                {/* </center> */}
                             </div>
                         </div>
                     </div>
