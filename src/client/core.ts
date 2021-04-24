@@ -42,7 +42,7 @@ const core = {
     },
 
     // Game renderer
-    canvas: document.querySelector(`ctx`),
+    canvas: document.querySelector(`canvas`),
 
     // Width of a sector.
     sectorWidth: 14336,

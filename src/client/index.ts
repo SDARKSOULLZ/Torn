@@ -19,7 +19,13 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import core from './core';
+
 import logSplash from './utils/logSplash';
+import updateViewport from './utils/updateViewport';
 
 // Log the loading splash.
 logSplash();
+
+// Update viewport on window resize.
+updateViewport();
+window.addEventListener(`resize`, updateViewport);
