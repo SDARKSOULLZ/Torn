@@ -1,5 +1,8 @@
 import * as React from 'react';
+
 import socket from '../../utils/socket';
+import sendAPI from '../../utils/sendAPI';
+import core from '../../core';
 
 class LoginOverlay extends React.Component<{ display: boolean }, { user: string, pass: string, seed: number }> {
     constructor (props) {
@@ -39,6 +42,33 @@ class LoginOverlay extends React.Component<{ display: boolean }, { user: string,
     registerG = () => {
         socket.connect();
         socket.emit(`lore`, { team: `green` });
+    }
+
+    login = async () => {
+        const user = this.state.user;
+        const pass = this.state.pass;
+
+        if (user === `` || pass === ``) return;
+
+        const playCookie = await sendAPI(`/login`, `${user}%${pass}`);
+
+        if (playCookie.status === 403) {
+            core.login = {
+                credentials: 1,
+                progress: false
+            }
+            return;
+        } else if (playCookie.status !== 200) {
+            alert(`Failed to connect to Torn Account Services.`);
+
+            core.login.progress = false;
+            return;
+        }
+
+        const playCookieData = await playCookie.text();
+        console.log(`[NETWORK] Got PlayCookie: ${playCookieData}`);
+
+        socket.emit(`login`, { cookie: playCookie, version: core.version });
     }
 
     // Insert language swappers here.
@@ -107,3 +137,5 @@ class LoginOverlay extends React.Component<{ display: boolean }, { user: string,
                 </div>);
     }
 }
+
+export default LoginOverlay;

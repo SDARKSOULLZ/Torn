@@ -41,6 +41,12 @@ const core = {
         sfx: false
     },
 
+    // Login handler.
+    login: {
+        credentials: 0,
+        progress: true
+    },
+
     // Game renderer
     canvas: document.querySelector(`canvas`),
 
