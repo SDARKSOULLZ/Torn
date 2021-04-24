@@ -19,3 +19,25 @@ import * as React from 'react';
 
 import core from './core';
 import socket from './utils/socket';
+
+class ReactRoot extends React.Component<{}, { display: string, register: string }> {
+    constructor (props) {
+        super(props);
+
+        this.state = {
+            // Control what is displayed.
+            display: `none`,
+            register: `none`
+        };
+    }
+
+    toggleDisplay = (name: string) => {
+        let current = this.state;
+        let val = current.display;
+
+        if (val === name) this.setState({ display: `none` });
+        else this.setState({ display: name });
+    }
+}
+
+export default ReactRoot;
