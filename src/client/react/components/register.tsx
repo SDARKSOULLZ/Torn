@@ -61,8 +61,7 @@ class Register extends React.Component<{ register: boolean }, { user: string, pa
         });
     }
 
-    render = () => (Element) => {
-        return (
+    render = () => (Element) => (
             this.props.register
                 ? (
                     <div className="register-menu">
@@ -92,7 +91,6 @@ class Register extends React.Component<{ register: boolean }, { user: string, pa
                 )
                 : null
         );
-    }
 }
 
 export default Register;
