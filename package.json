@@ -37,6 +37,8 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/runtime": "^7.14.0",
     "@types/react": "^17.0.5",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
     "babel-loader": "^8.2.2",
     "eslint": "^7.26.0",
     "eslint-config-standard": "^16.0.2",
