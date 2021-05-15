@@ -36,52 +36,64 @@
     },
 
     "rules": {
-        "no-eval": 2,
-        "brace-style": 1,
+         // Eval should not be allowed ever, regardless of use case.
+         "no-eval": 2,
 
-        "indent": ["warn", 4, {
-            "SwitchCase": 1
-        }],
-
-        "semi": [1, "always"],
-        "quotes": [2, "backtick"],
-
-        "prefer-arrow-callback": 1,
-        "prefer-template": 1,
-
-        "func-style": 1,
-
-        "arrow-body-style": ["warn", "as-needed"],
-        "prefer-arrow/prefer-arrow-functions": ["warn", {
-            "disallowPrototype": true,
-            "singleReturnOnly": true,
-            "classPropertiesAllowed": false
-        }],
-
-        "no-undef": 0,
-        "no-var": 0,
-        "no-use-before-define": 0,
-
-        "no-unused-vars": 0,
-        "no-unused-expressions": 0,
-
-        "prefer-const": 0,
-        "no-mixed-operators": 0,
-
-        "new-cap": 0,
-        "eqeqeq": 0,
-        "curly": 0,
-        "camelcase": 0,
-        "no-sequences": 0,
-
-        "no-tabs": 0,
-        "no-mixed-spaces-and-tabs": 0,
-
-        "react/prop-types": 0,
-        "react/no-string-refs": 0,
-
-        "prefer-regex-literals": 0,
-        "no-useless-escape": 0,
-        "no-func-assign": 0
+         // } else {}
+         "brace-style": 1,
+ 
+         // Indents should be four spaces.
+         "indent": ["warn", 4, {
+             "SwitchCase": 1
+         }],
+ 
+         // Semicolons and backticks should always be used.
+         "semi": [1, "always"],
+         "quotes": [2, "backtick"],
+ 
+ 
+         // Use templating strings with backticks whenever possible.
+         "prefer-template": 1,
+ 
+         // Prefer const myFunction = () => {}; rather than function myFunction () {}.
+         "func-style": 1,
+ 
+         // Prefer fat arrow functions.
+         "prefer-arrow-callback": 1,
+         "arrow-body-style": ["warn", "as-needed"],
+         "prefer-arrow/prefer-arrow-functions": ["warn", {
+             "disallowPrototype": true,
+             "singleReturnOnly": true,
+             "classPropertiesAllowed": false
+         }],
+ 
+         // ESLint globals have not been configured for these.
+         "no-undef": 0,
+         "no-var": 0,
+         "no-use-before-define": 0,
+         "no-unused-vars": 0,
+         "no-unused-expressions": 0,
+         "prefer-const": 0,
+ 
+         // Unnecessary.
+         "no-mixed-operators": 0,
+ 
+         // More redundant manual linting.
+         "new-cap": 0,
+         "eqeqeq": 0,
+         "curly": 0,
+         "camelcase": 0,
+         "no-sequences": 0,
+         "no-tabs": 0,
+         "no-mixed-spaces-and-tabs": 0,
+ 
+         // Too lazy to fix.
+         "react/prop-types": 0,
+         "react/no-string-refs": 0,
+         "prefer-regex-literals": 0,
+         "no-useless-escape": 0,
+         "no-func-assign": 0,
+         "no-global-assign": 0,
+         "no-self-assign": 0 
     }
 }
