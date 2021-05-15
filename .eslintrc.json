@@ -72,6 +72,10 @@
         "eqeqeq": 0,
         "curly": 0,
         "camelcase": 0,
+        "no-sequences": 0,
+
+        "no-tabs": 0,
+        "no-mixed-spaces-and-tabs": 0,
 
         "react/prop-types": 0,
         "react/no-string-refs": 0
