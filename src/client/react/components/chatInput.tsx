@@ -29,7 +29,7 @@ class ChatInput extends React.Component<{}, { value: string, activated: boolean 
             activated: false
         };
     }
-    
+
     focusChat = () => {
         this.chatRef.focus();
     }
@@ -48,7 +48,7 @@ class ChatInput extends React.Component<{}, { value: string, activated: boolean 
             activated: true
         });
     }
-    
+
     keypress = (event: KeyboardEvent) => {
         if (event.key === `Enter`) {
             this.unfocusChat();
@@ -67,22 +67,20 @@ class ChatInput extends React.Component<{}, { value: string, activated: boolean 
         this.setState({ value: event.target.value });
     }
 
-    render = () => {
-        return this.state.activated
-            ? (
-                <input
-                    className="chat-input"
-                    ref={this.chatRef}
-                    maxLength={128}
-                    onKeyDown={this.keypress.bind(this)}
-                    onChange={this.change.bind(this)}
-                    value={this.state.value}
-                    placeholder="Press enter to chat!"
-                    type="text"
-                />
-            )
-            : null;
-    }
+    render = () => this.state.activated
+        ? (
+            <input
+                className="chat-input"
+                ref={this.chatRef}
+                maxLength={128}
+                onKeyDown={this.keypress.bind(this)}
+                onChange={this.change.bind(this)}
+                value={this.state.value}
+                placeholder="Press enter to chat!"
+                type="text"
+            />
+        )
+        : null
 }
 
 export default ChatInput;

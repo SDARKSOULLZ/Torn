@@ -45,24 +45,22 @@ class ReactRoot extends React.Component<{ data: { toggleSFX: boolean, toggleMusi
     turnOnRegister = () => {
         this.setState({ register: `Register` });
     }
-    
+
     turnOffRegister = () => {
         this.setState({ register: `none` });
     }
 
-    render = () => (Element) => {
-        return (
-            <span>
-                <Chat />
+    render = () => (Element) => (
+        <span>
+            <Chat />
 
-                <MuteButton toggleSFX={this.props.data.toggleSFX} />
-                <MusicButton toggleMusic={this.props.data.toggleMusic} />
+            <MuteButton toggleSFX={this.props.data.toggleSFX} />
+            <MusicButton toggleMusic={this.props.data.toggleMusic} />
 
-                <LoginOverlay display={this.state.display === `LoginOverlay`} />
-                <Register register={this.state.register === `Register`} />
-            </span>
-        );
-    }
+            <LoginOverlay display={this.state.display === `LoginOverlay`} />
+            <Register register={this.state.register === `Register`} />
+        </span>
+    )
 }
 
 export default ReactRoot;

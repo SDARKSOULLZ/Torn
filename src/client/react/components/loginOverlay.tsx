@@ -73,7 +73,7 @@ class LoginOverlay extends React.Component<{ display: boolean }, { user: string,
             core.login = {
                 credentials: 1,
                 progress: false
-            }
+            };
             return;
         } else if (playCookie.status !== 200) {
             alert(`Failed to connect to Torn Account Services.`);
@@ -115,16 +115,16 @@ class LoginOverlay extends React.Component<{ display: boolean }, { user: string,
                 </div>
             );
 
-            return !this.props.display
-                ? null
-                : (
+        return !this.props.display
+            ? null
+            : (
                 <div>
                     <div className="overlay-menu">
                         <div className="container">
                             <div className="guests">
                                 {/* <center> */}
                                 <h3>New Players</h3>
-                                    {buttonOrder}
+                                {buttonOrder}
                                 {/* </center> */}
                             </div>
                             <div className="video">
@@ -134,17 +134,17 @@ class LoginOverlay extends React.Component<{ display: boolean }, { user: string,
                                 <br /><a href="youtubers/">Have a channel?</a></center>
                             */}
 
-                            {/* <center> */}
-                            <img src="img/harrlogo.png" alt="Logo" width="340"/>
-                            {/* </center> */}
+                                {/* <center> */}
+                                <img src="img/harrlogo.png" alt="Logo" width="340"/>
+                                {/* </center> */}
 
                             </div>
                             <div className="login">
                                 {/* <center> */}
                                 <h3>Returning Players</h3>
-                                    <input className="overlay-input" type="text" id="usernameid" onChange={this.changeUsername} placeholder="Username" />
-                                    <input className="overlay-input" type="password" id="passid" onChange={this.changePassword} placeholder="Password" />
-                                    <button className="overlay-button" id="loginButton" onClick={this.login}>Login</button>
+                                <input className="overlay-input" type="text" id="usernameid" onChange={this.changeUsername} placeholder="Username" />
+                                <input className="overlay-input" type="password" id="passid" onChange={this.changePassword} placeholder="Password" />
+                                <button className="overlay-button" id="loginButton" onClick={this.login}>Login</button>
                                 {/* </center> */}
                             </div>
                         </div>

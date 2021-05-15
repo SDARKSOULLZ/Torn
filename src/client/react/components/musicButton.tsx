@@ -31,16 +31,14 @@ class MusicButton extends React.Component<{ toggleMusic: boolean }, { muted: boo
 
     click = () => {
         toggleMusic();
-        this.setState({ muted: core.muted.music })
+        this.setState({ muted: core.muted.music });
     }
 
-    render = () => (Element) => {
-        return (
-            <div className="music-button" onClick={this.click.bind(this)}>
-                {<span><img src={`img/sound/music${!this.state.muted ? `on` : `off`}`} alt="Mute button"/></span>}
-            </div>
-        );
-    }
+    render = () => (Element) => (
+        <div className="music-button" onClick={this.click.bind(this)}>
+            {<span><img src={`img/sound/music${!this.state.muted ? `on` : `off`}`} alt="Mute button"/></span>}
+        </div>
+    )
 }
 
 export default MusicButton;

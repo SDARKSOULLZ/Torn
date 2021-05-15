@@ -44,7 +44,7 @@ class Chat extends React.Component<{}, { messages: any[] }> {
     }
 
     fadeOut = (id: number) => {
-        this.setState({ messages: this.state.messages.map(message => (message.id === id ? {...message, fadeOut: true } : message)) });
+        this.setState({ messages: this.state.messages.map(message => (message.id === id ? { ...message, fadeOut: true } : message)) });
     }
 
     addMsg = (data: any) => {
@@ -53,7 +53,7 @@ class Chat extends React.Component<{}, { messages: any[] }> {
 
         setTimeout(() => {
             this.fadeOut(data.id);
-            setTimeout(() => this.removeMsg(data.id), 2e3)
+            setTimeout(() => this.removeMsg(data.id), 2e3);
         }, 6e4);
     }
 
@@ -61,25 +61,25 @@ class Chat extends React.Component<{}, { messages: any[] }> {
         this.setState({ messages: this.state.messages.filter(message => message.id !== id) });
     }
 
-    render = () => (Element) => {
-        return (
-            <div className="chat">
-                {
-                    this.state.messages.map((message, i) => 
-                        <div className={`chat-msg ${message.fadeOut ? `chat-msg-fadeout`: ``}`}
-                            key={i}
-                            style={{ color:
+    render = () => (Element) => (
+        <div className="chat">
+            {
+                this.state.messages.map((message, i) =>
+                    <div className={`chat-msg ${message.fadeOut ? `chat-msg-fadeout` : ``}`}
+                        key={i}
+                        style={{
+                            color:
                                 message.color === `red`
                                     ? `pink`
                                     : message.color === `blue`
-                                        ?  `cyan`
-                                        : `white` }}
-                        >{message.msg}</div>)
-                }
-                <ChatInput />
-            </div>
-        );
-    }
+                                        ? `cyan`
+                                        : `white`
+                        }}
+                    >{message.msg}</div>)
+            }
+            <ChatInput />
+        </div>
+    )
 }
 
 export default Chat;

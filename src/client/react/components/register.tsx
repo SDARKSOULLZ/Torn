@@ -62,35 +62,35 @@ class Register extends React.Component<{ register: boolean }, { user: string, pa
     }
 
     render = () => (Element) => (
-            this.props.register
-                ? (
-                    <div className="register-menu">
-                        {/* <center> */}
-                        <h3>Create an account!</h3>
-                        <br />
+        this.props.register
+            ? (
+                <div className="register-menu">
+                    {/* <center> */}
+                    <h3>Create an account!</h3>
+                    <br />
 
-                        <input className="overlay-input" type="text" onChange={this.changeUsername} placeholder="Username" maxLength={16} style={{ margin: 8 }} />
-                        <input className="overlay-input" type="password" onChange={this.changePassword} placeholder="Password" maxLength={32} style={{ margin: 8 }} />
+                    <input className="overlay-input" type="text" onChange={this.changeUsername} placeholder="Username" maxLength={16} style={{ margin: 8 }} />
+                    <input className="overlay-input" type="password" onChange={this.changePassword} placeholder="Password" maxLength={32} style={{ margin: 8 }} />
 
-                        <br />
-                        <button className="register" onClick={this.register}>Register!</button>
-                        
-                        <br />
-                        <br />
-                        
+                    <br />
+                    <button className="register" onClick={this.register}>Register!</button>
+
+                    <br />
+                    <br />
+
                         By registering, you agree to follow our terms of service and abide by our privacy policy.
-                        
-                        <a href="legal/privacy_policy.pdf" > Privacy Policy | </a>
-                        <a href="legal/tos.pdf">Terms of Service</a>
-                        <br/>
-                        
-                        <br />
+
+                    <a href="legal/privacy_policy.pdf" > Privacy Policy | </a>
+                    <a href="legal/tos.pdf">Terms of Service</a>
+                    <br/>
+
+                    <br />
                         Remember, never give your password to anyone!!
-                        {/* </center> */}
-                    </div>
-                )
-                : null
-        );
+                    {/* </center> */}
+                </div>
+            )
+            : null
+    );
 }
 
 export default Register;
