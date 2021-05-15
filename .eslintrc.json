@@ -73,6 +73,7 @@
         }],
 
         "react/prop-types": 0,
-        "react/no-string-refs": 0
+        "react/no-string-refs": 0,
+        "new-cap":0
     }
 }
