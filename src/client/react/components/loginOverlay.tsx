@@ -32,6 +32,22 @@ class LoginOverlay extends React.Component<{ display: boolean }, { user: string,
         };
     }
 
+    // langEng = () => {
+    //     setLang(`eng`);
+    // }
+
+    // langEsp = () => {
+    //     setLang(`esp`);
+    // }
+
+    // langTki = () => {
+    //     setLang(`tki`);
+    // }
+
+    // langChn = () => {
+    //     setLang(`chn`);
+    // }
+
     changeUsername = (event) => {
         this.setState({
             user: event.target.value,
