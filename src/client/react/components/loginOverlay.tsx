@@ -104,8 +104,6 @@ class LoginOverlay extends React.Component<{ display: boolean }, { user: string,
         socket.emit(`login`, { cookie: playCookie, version: core.version });
     }
 
-    // Insert language swappers here.
-
     render = () => (Element) => {
         const buttonOrder = (this.state.seed < 0.66)
             ? ((this.state.seed < 0.33)
