@@ -15,6 +15,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import loadJSON from './loadJSON';
+
 const languages = {
     eng: `english`,
     esp: `translations/spanish`,
@@ -22,9 +24,35 @@ const languages = {
     chn: `translations/chinese`
 };
 
-let languageJSON;
+let languageJSON, languageNumber;
 
 const weapons = require(`../../client/weapons.json`);
 const translateMapper = require(`../../client/translate.json`);
 
+const loadLang = (name) => {
+    let assigned;
+    const loc = window.location.href;
 
+    if (loc.includes(`eng`) || name === `eng`) {
+        assigned = languages.eng;
+        languageNumber = 0;
+    } else if (loc.includes(`esp`) || name === `esp`) {
+        assigned = languages.esp;
+        languageNumber = 1;
+    } else if (loc.includes(`tki`) || name === `tki`) {
+        assigned = languages.tki;
+        languageNumber = 2;
+    } else if (loc.includes(`chn`) || name === `chn`) {
+        assigned = languages.chn;
+        languageNumber = 3;
+    }
+
+    if (!assigned) {
+        const lang = document.cookie.replace(/(?:(?:^|.*;\s*)lang\s*\=\s*([^;]*).*$)|^.*$/, `$1`);
+
+        languageJSON = languages[lang];
+        languageNumber = Object.keys(languages).indexOf(lang);
+    }
+
+    languageJSON = loadJSON(languages[languageNumber]);
+};
