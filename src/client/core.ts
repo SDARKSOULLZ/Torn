@@ -60,7 +60,9 @@ const core = {
     maps: {
         base2D: {},
         planet2D: {}
-    }
+    },
+
+    entities: []
 };
 
 export default core;
