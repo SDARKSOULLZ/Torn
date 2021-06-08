@@ -32,7 +32,7 @@ class PlayerMP extends Player {
         this.globalChat = 0;
         this.lastmsg = ``;
 
-        this.reply = `nobody`; // last person to pm / who pmed me
+        this.reply = `no one`; // last person to pm / who pmed me
         this.lastLogin = new Date();
 
         this.permissionLevels = [-1];
@@ -69,7 +69,7 @@ class PlayerMP extends Player {
             this.emit(`chat`, { msg: `~\`red~\`Invalid Syntax!` });
             return;
         }
-        if (this.weapons[slot1] == -2 || this.weapons[slot2] == -2) {
+        if (this.weapons[slot1 - 1] == -2 || this.weapons[slot2 - 1] == -2) {
             this.emit(`chat`, { msg: `~\`orange~\`You haven't unlocked that slot yet!` });
             return;
         }
@@ -253,7 +253,7 @@ class PlayerMP extends Player {
         this.health = this.maxHealth;
         this.dead = true;
 
-        await handlePlayerDeath(this);
+        await handlePlayerDeath(this, this.driftAchs[8], this.randmAchs[4]);
 
         this.x = this.y = sectorWidth / 2;
         const whereToRespawn = Math.floor(Math.random() * basesPerTeam) * 2;

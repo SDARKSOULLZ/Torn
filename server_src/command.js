@@ -47,12 +47,12 @@ global.cmds = {};
 
 // GUEST COMMANDS
 // All players including guests have access to these
-cmds.help = new Command(`/help - Displays commands & usages`, EVERYONE, (plyr, msg) => {
-    for (const p in plyr.permissionLevels) {
-        const lvl = plyr.permissionLevels[p];
+cmds.help = new Command(`/help - Displays commands & usages`, EVERYONE, (player, msg) => {
+    for (const p in player.permissionLevels) {
+        const lvl = player.permissionLevels[p];
 	    for (let x = 0; x < HELP_TABLE[lvl].length; ++x) {
 	        const cmd = HELP_TABLE[lvl][x];
-	        plyr.socket.emit(`chat`, { msg: cmd.usage });
+            playerChat(cmd.usage, player.globalChat, player.color, player.guild);
 	    }
     }
 });

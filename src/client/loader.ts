@@ -22,6 +22,7 @@ const loadAllImages = () => {
     // Misc.
     loadImage(`grad`, `/img/grad.png`);
     loadImage(`fire`, `/img/fire.png`);
+    loadImage(`vipstar`, `/img/vipstar.png`);
     loadImage(`shockwave`, `/img/shockwave.png`);
     loadImage(`booms`, `/img/booms.png`);
 
@@ -92,7 +93,6 @@ const loadAllImages = () => {
 
     // Base GUI.
     loadImage(`q`, `/img/baseGui/q.png`);
-    loadImage(`button`, `/img/baseGui/button.png`);
     loadImage(`arrow`, `/img/baseGui/arrow.png`);
 
     // Pack drops.

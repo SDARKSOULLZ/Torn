@@ -47,7 +47,7 @@ global.connectToDB = function () {
     });
 };
 
-global.handlePlayerDeath = async function (player) {
+global.handlePlayerDeath = async function (player, inertia_drift, blackhole_death) {
     if (player.guest) return;
 
     const record = await PLAYER_DATABASE.findOne({ _id: player.name });
@@ -64,7 +64,10 @@ global.handlePlayerDeath = async function (player) {
 
     player.experience *= 1 - playerKillExpFraction;
     player.money *= 1 - playerKillMoneyFraction;
-    player.randmAchs[1] = true; // Death Achievement;
+    console.log(`${inertia_drift} ${blackhole_death}`);
+    player.randmAchs[1] = true; // Death Achievement
+    player.driftAchs[8] = inertia_drift; // inertia drift Achievement
+    player.randmAchs[4] = blackhole_death; // BH death Achievement
 };
 
 global.loadPlayerData = async function (player) {
@@ -83,12 +86,12 @@ global.loadPlayerData = async function (player) {
     if (!(player.guild in guildPlayers)) player.guild = ``; // This accounts for players with old/undefined guilds
 
     player.permissionLevels = [0];
-    if (player.name.includes(`O`)) player.permissionLevels.push(30); // they're capital, it's fine
-    if (player.name.includes(`A`)) player.permissionLevels.push(20);
-    if (player.name.includes(`M`)) player.permissionLevels.push(10);
-    if (player.name.includes(`B`)) player.permissionLevels.push(7);
-    if (player.name.includes(`V`)) player.permissionLevels.push(5);
-    if (player.name.includes(`Y`)) player.permissionLevels.push(3);
+    if (player.tag === `O`) player.permissionLevels.push(30);
+    if (player.tag === `A`) player.permissionLevels.push(20);
+    if (player.tag === `M`) player.permissionLevels.push(10);
+    if (player.tag === `B`) player.permissionLevels.push(7);
+    if (player.tag === `V`) player.permissionLevels.push(5);
+    if (player.tag === `Y`) player.permissionLevels.push(3);
 
     return player;
 };
@@ -108,11 +111,11 @@ global.saveTurret = function (turret) {
         baseType: turret.baseType,
         name: turret.name
     };
-    TURRET_DATABASE.replaceOne({ id: turret.id }, record, { upsert: true });
+    TURRET_DATABASE.replaceOne({ _id: turret.id }, record, { upsert: true });
 };
 
 global.deleteTurret = function (turret) {
-    TURRET_DATABASE.deleteOne({ _id: turret._id });
+    TURRET_DATABASE.deleteOne({ _id: turret.id });
 };
 
 global.loadTurretData = async function () {

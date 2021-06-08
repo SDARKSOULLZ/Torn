@@ -32,8 +32,8 @@ global.send_api = async (endpoint, data) => await fetch(API_URL + endpoint, {
 
 global.socket = io(GAMESERVER_URL,
     {
-        autoConnect: false,
-        parser: msgpack
+        autoConnect: false
+        // parser: msgpack
     });
 
 global.connect = function () {
@@ -234,8 +234,8 @@ socket.on(`asteroid_create`, (data) => {
     astsInfo[data.id] = data;
 });
 
-socket.on(`pong`, (latency) => {
-    nLag = latency;
+socket.on(`torn-ping`, (tstamp) => {
+    nLag = 2 * (Date.now() - tstamp); // round-trip time
 });
 
 socket.on(`asteroid_delete`, (data) => {

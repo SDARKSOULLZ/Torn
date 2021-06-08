@@ -109,7 +109,7 @@ module.exports = initNetcode = () => {
     // https://github.com/socketio/engine.io/blob/c1448951334c7cfc5f1d1fff83c35117b6cf729f/lib/server.js
     global.io = socketIO(server, {
         serveClient: false,
-        parser: msgpack,
+        // parser: msgpack,
         cors: {
             origin: `*`
         }
@@ -291,6 +291,7 @@ module.exports = initNetcode = () => {
             }
 
             setTimeout(async () => {
+                player.name = name;
                 await loadPlayerData(player);
                 player.ip = ip;
                 socket.emit(`loginSuccess`, { id: player.id });
@@ -685,7 +686,18 @@ module.exports = initNetcode = () => {
             // You need to have unlocked this quest type.
             if (quest == 0 || (quest.type === `Base` && player.rank < 7) || (quest.type === `Secret` && player.rank <= 14)) return;
 
-            if (((quest.dsx % 3 == 1 && quest.dsy == 8) || (quest.sx % 3 == 1 && quest.sy == 8)) && !player.randmAchs[2]) { // risky business
+            let hasBH = false;
+            if (typeof quest.dsyv === `number`) {
+                for (let bh in vorts[quest.dsyv][quest.dsxv]) {
+                    hasBH = hasBH || !bh.isWorm;
+                }
+            }
+            if (typeof quest.syv === `number`) {
+                for (let bh in vorts[quest.syv][quest.sxv]) {
+                    hasBH = hasBH || !bh.isWorm;
+                }
+            }
+            if (hasBH && !player.randmAchs[2]) { // risky business
                 player.randmAchs[2] = true;
                 player.sendAchievementsMisc(true);
             }
