@@ -1,10 +1,10 @@
 import core from '../core';
 
 class Entity {
-    netType: number;
-    position: { x: number, y: number };
+    netType: number
+    position: { x: number, y: number }
 
-    constructor (netType, x, y) {
+    constructor (netType: number, x: number, y: number) {
         // forbidden is a piece of shit
         this.position = {
             x,
